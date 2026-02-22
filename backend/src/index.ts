@@ -43,7 +43,8 @@ const bookingSchema = z.object({
   phone: z.string().min(1, "Phone is required"),
   address: z.string().min(1, "Address is required"),
   numCats: z.number().min(1),
-  frequency: z.number().min(1),
+  frequency: z.union([z.number(), z.string()]),
+  plan: z.string().optional(),
   timeOfDay: z.string().optional(),
   notes: z.string().optional(),
   language: z.string().optional()
@@ -109,7 +110,7 @@ app.post('/api/bookings', async (req: Request, res: Response) => {
       // 1. Admin Notification (Chinese)
       const adminEmail = process.env.ADMIN_EMAIL || 'admin@scoopo.com.au';
       await resend.emails.send({
-        from: 'ScooPo Booking <onboarding@resend.dev>',
+        from: 'ScooPo Booking <info@scooposervice.com>',
         to: adminEmail,
         subject: `🔔 新预约通知: ${validatedData.name}`,
         html: `
@@ -118,8 +119,9 @@ app.post('/api/bookings', async (req: Request, res: Response) => {
           <p><strong>电话:</strong> ${validatedData.phone}</p>
           <p><strong>邮箱:</strong> ${validatedData.email}</p>
           <p><strong>地址:</strong> ${validatedData.address}</p>
+          <p><strong>选择方案:</strong> ${validatedData.plan || 'Essential'}</p>
           <p><strong>猫咪数量:</strong> ${validatedData.numCats}</p>
-          <p><strong>每周频率:</strong> ${validatedData.frequency} 次</p>
+          <p><strong>每周频率:</strong> ${validatedData.frequency === 'custom' ? '7次以上 (联系定制)' : `${validatedData.frequency} 次`}</p>
           <p><strong>首选时间:</strong> ${validatedData.timeOfDay}</p>
           <p><strong>备注:</strong> ${validatedData.notes || '无'}</p>
           <hr />
@@ -129,12 +131,13 @@ app.post('/api/bookings', async (req: Request, res: Response) => {
 
       // 2. Customer Confirmation (Bilingual)
       await resend.emails.send({
-        from: 'ScooPo <onboarding@resend.dev>',
+        from: 'ScooPo <info@scooposervice.com>',
         to: validatedData.email,
         subject: 'Thank you for your booking! | 感谢您的预约！',
         html: `
           <h2>Hi ${validatedData.name},</h2>
           <p>We have received your booking request for pet waste removal services.</p>
+          <p><strong>Plan:</strong> ${validatedData.plan || 'Essential'}</p>
           <p><strong>Address:</strong> ${validatedData.address}</p>
           <p>Our team will contact you within 24 hours to confirm your schedule.</p>
           <br />

@@ -1,16 +1,24 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Trash2, Wind, ShieldCheck, Check, X, Minus, Plus } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import React, { useState, useEffect, Suspense } from 'react';
+import { Trash2, Wind, ShieldCheck, Check, X, Minus, Plus, Loader2 } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { CONTENT } from '@/content';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 type Lang = 'en' | 'cn';
 
-export default function Home() {
+function HomeContent() {
   const [lang, setLang] = useState<Lang>('en');
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const l = searchParams.get('lang');
+    if (l === 'en' || l === 'cn') {
+      setLang(l as Lang);
+    }
+  }, [searchParams]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState('');
   const [formData, setFormData] = useState({ name: '', phone: '', email: '', address: '' });
@@ -25,8 +33,13 @@ export default function Home() {
 
   const t = CONTENT[lang];
 
-  const handleBookClick = (planName?: string) => {
-    router.push('/book');
+  const handleBookClick = (planName: string) => {
+    const params = new URLSearchParams();
+    params.set('cats', numCats.toString());
+    params.set('freq', frequency.toString());
+    params.set('plan', planName);
+    params.set('lang', lang);
+    router.push(`/book?${params.toString()}`);
   };
 
   const handleClose = () => {
@@ -155,11 +168,7 @@ export default function Home() {
     const discount = getDiscountBadge(frequency);
     const discountStr = discount ? ` (${discount})` : '';
     
-    if (lang === 'cn') {
-      return `${planName} - ${frequency} 次/周${discountStr}`;
-    }
-    const unit = frequency === 1 ? 'Time' : 'Times';
-    return `${planName} - ${frequency} ${unit}${discountStr}`;
+    return `${planName}${discountStr}`;
   };
 
   return (
@@ -491,7 +500,7 @@ export default function Home() {
         </div>
       </section>
 
-      <Footer t={t} />
+      <Footer t={t} lang={lang} />
 
       {/* Modal */}
       {isModalOpen && (
@@ -586,5 +595,17 @@ export default function Home() {
         </div>
       )}
     </main>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-brand-blue" />
+      </div>
+    }>
+      <HomeContent />
+    </Suspense>
   );
 }

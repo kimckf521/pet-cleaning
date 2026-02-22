@@ -6,7 +6,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { customer_name, phone, email, address, plan_name, num_cats, language } = body;
+    const { customer_name, phone, email, address, plan_name, num_cats, frequency, language } = body;
 
     // Create admin notification email (Chinese only)
     const adminEmailText = `
@@ -27,6 +27,7 @@ export async function POST(request: NextRequest) {
 
 选择方案：${plan_name}
 猫咪数量：${num_cats}
+每周期数：${frequency === 'custom' ? '7次以上 (联系定制)' : `${frequency} 次`}
 语言偏好：${language}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -54,6 +55,7 @@ Thank you for choosing ScooPo! We've received your booking request and our team 
 
 Plan: ${plan_name}
 Number of Cats: ${num_cats}
+Visits per Week: ${frequency === 'custom' ? '7+ (Custom Quote)' : `${frequency} visits/week`}
 Service Address: ${address}
 Contact Phone: ${phone}
 Contact Email: ${email}
@@ -96,6 +98,7 @@ Serving Box Hill & Blackburn Area
 
 服务方案：${plan_name}
 猫咪数量：${num_cats}
+每周期数：${frequency === 'custom' ? '7次以上 (联系定制)' : `${frequency} 次/周`}
 服务地址：${address}
 联系电话：${phone}
 联系邮箱：${email}

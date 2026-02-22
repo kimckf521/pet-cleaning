@@ -14,21 +14,26 @@ interface NavbarProps {
 export default function Navbar({ lang, setLang, t }: NavbarProps) {
   const router = useRouter();
 
+  const getLink = (path: string) => {
+    const [base, hash] = path.split('#');
+    return `${base}?lang=${lang}${hash ? '#' + hash : ''}`;
+  };
+
   const handleBookClick = () => {
-    router.push('/book');
+    router.push(getLink('/book'));
   };
 
   return (
     <nav className="fixed w-full bg-white/90 backdrop-blur-md shadow-sm z-50">
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-        <Link href="/" className="text-2xl font-bold text-brand-blue flex items-center gap-2">
+        <Link href={getLink('/')} className="text-2xl font-bold text-brand-blue flex items-center gap-2">
           <ShieldCheck className="w-8 h-8" />
           {t.nav.logo}
         </Link>
         <div className="hidden md:flex items-center gap-8 font-medium text-gray-600">
-          <Link href="/" className="hover:text-brand-blue transition-colors">{t.nav.home}</Link>
-          <Link href="/about" className="hover:text-brand-blue transition-colors">{t.nav.about}</Link>
-          <Link href="/services" className="hover:text-brand-blue transition-colors">{t.nav.services}</Link>
+          <Link href={getLink('/')} className="hover:text-brand-blue transition-colors">{t.nav.home}</Link>
+          <Link href={getLink('/about')} className="hover:text-brand-blue transition-colors">{t.nav.about}</Link>
+          <Link href={getLink('/services')} className="hover:text-brand-blue transition-colors">{t.nav.services}</Link>
         </div>
         <div className="flex items-center gap-4">
           <button

@@ -1,15 +1,29 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Layers, Sparkles, Sprout, Wind, MousePointer2, ListChecks, CalendarRange, CheckCircle, ArrowRight } from 'lucide-react';
+import React, { useState, useEffect, Suspense } from 'react';
+import { Layers, Sparkles, Sprout, Wind, MousePointer2, ListChecks, CalendarRange, CheckCircle, ArrowRight, Loader2 } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { CONTENT } from '@/content';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
-export default function ServicesPage() {
+function ServicesContent() {
   const [lang, setLang] = useState<'en' | 'cn'>('en');
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const l = searchParams.get('lang');
+    if (l === 'en' || l === 'cn') {
+      setLang(l as 'en' | 'cn');
+    }
+  }, [searchParams]);
+
   const t = CONTENT[lang];
+  const getLink = (path: string) => {
+    const [base, hash] = path.split('#');
+    return `${base}?lang=${lang}${hash ? '#' + hash : ''}`;
+  };
 
   const processSteps = [
     {
@@ -20,17 +34,17 @@ export default function ServicesPage() {
     {
       icon: <MousePointer2 size={32} />,
       title: lang === 'en' ? "We Arrive" : "我们到达",
-      desc: lang === 'en' ? "Our professional team arrives and safely enters your yard, checking all gates." : "我们的专业团队到达后安全进入您的院子，并检查所有门锁。"
+      desc: lang === 'en' ? "Our professional team arrives and safely enters your house or apartment." : "我们的专业团队到达后安全进入您的房子或公寓。"
     },
     {
       icon: <ListChecks size={32} />,
       title: lang === 'en' ? "Thorough Scoop" : "彻底清理",
-      desc: lang === 'en' ? "We scan the entire area in a grid pattern to ensure no spot is missed." : "我们以网格模式扫描整个区域，确保不遗漏任何角落。"
+      desc: lang === 'en' ? "We scan the entire pet toilet area in a grid pattern to ensure no spot is missed." : "我们以网格模式扫描整个宠物厕所区域，确保不遗漏任何角落。"
     },
     {
       icon: <Sparkles size={32} />,
       title: lang === 'en' ? "Sanitize & Spray" : "消毒喷洒",
-      desc: lang === 'en' ? "We apply pet-safe deodorizer and sanitizer to keep your lawn fresh." : "我们喷洒对宠物安全的除臭剂和消毒剂，保持草坪清新。"
+      desc: lang === 'en' ? "We apply pet-safe deodorizer and sanitizer to keep your pet's toilet area clean and odor-free." : "我们喷洒对宠物安全的除臭剂和消毒剂，保持宠物厕所区域干净和无异味。"
     }
   ];
 
@@ -39,8 +53,8 @@ export default function ServicesPage() {
       title: lang === 'en' ? "Waste Removal" : "粪便清理",
       icon: <Layers className="text-brand-blue" />,
       details: lang === 'en' 
-        ? ["Complete yard scan", "Waste bagged and hauled away", "Gate security check", "Photo confirmation"]
-        : ["全院扫描", "粪便装袋并带离", "门禁安全检查", "照片确认"]
+        ? ["Complete area scan", "Waste bagged and hauled away", "Secure entry check", "Photo confirmation"]
+        : ["宠物厕所全面扫描", "粪便装袋并带离", "入户安全检查", "照片确认"]
     },
     {
       title: lang === 'en' ? "Sanitization & Deodorizing" : "消毒与除臭",
@@ -50,18 +64,18 @@ export default function ServicesPage() {
         : ["宠物安全酶处理", "消除尿液和粪便异味", "杀灭细菌和寄生虫", "持久留香"]
     },
     {
-      title: lang === 'en' ? "Garden & Lawn Care" : "花园与草坪护理",
+      title: lang === 'en' ? "Pet Health & Hygiene" : "宠物健康与卫生",
       icon: <Sprout className="text-brand-blue" />,
       details: lang === 'en'
-        ? ["Lawn health assessment", "Eco-friendly fertilizers", "Leaf removal (Optional)", "Small brush cleanup"]
-        : ["草坪健康评估", "环保肥料", "落叶清理（可选）", "小型灌木清理"]
+        ? ["Litter area sanitization", "Odor neutralizer application", "Water & food bowl refresh", "Stool anomaly monitoring"]
+        : ["宠物厕所区域消毒", "气味中和处理", "饮水及喂食具清洁", "排泄物异常监测"]
     },
     {
       title: lang === 'en' ? "Indoor/Outdoor Litter" : "室内/室外猫砂服务",
       icon: <Wind className="text-brand-green" />,
       details: lang === 'en'
-        ? ["Full litter box dump & scrub", "Sanitary refill", "Odor control treatment", "Weekly or bi-weekly"]
-        : ["猫砂盆彻底清空与刷洗", "卫生猫砂填充", "异味控制处理", "每周或每两周一次"]
+        ? ["Full litter box dump & scrub", "Sanitary refill (Using your litter)", "Deep odor control", "Weekly maintenance"]
+        : ["猫砂盆彻底清空与刷洗", "卫生猫砂填充 (使用自备猫砂)", "深度异味控制", "每周专业维护"]
     }
   ];
 
@@ -137,11 +151,11 @@ export default function ServicesPage() {
           <h2 className="text-4xl font-bold mb-10 text-gray-900">{lang === 'en' ? 'Simple, Transparent Pricing' : '简单、透明的定价'}</h2>
           <p className="text-gray-600 mb-12">
             {lang === 'en'
-              ? "No registration fees. No hidden costs. Just professional service and a clean yard. All our plans include thorough scoping, waste disposal, and pet-safe sanitizing sprays."
-              : "无注册费。无隐藏费用。只有专业的服务和整洁的院子。我们所有的方案都包括彻底的清理、垃圾处理和对宠物安全的消毒喷雾。"}
+              ? "No registration fees. No hidden costs. Just professional service and a fresh home. All our plans include thorough scoping, waste disposal, and pet-safe sanitizing sprays."
+              : "无注册费。无隐藏费用。只有专业的服务和清新的家居环境。我们所有的方案都包括彻底的清理、垃圾处理和对宠物安全的消毒喷雾。"}
           </p>
           <Link 
-              href="/#plans"
+              href={getLink('/#plans')}
               className="inline-flex items-center gap-3 bg-brand-blue text-white px-12 py-5 rounded-2xl font-bold text-lg hover:bg-cyan-600 transition-all shadow-xl hover:-translate-y-1"
             >
               {lang === 'en' ? 'Check Pricing Plans' : '查看定价方案'}
@@ -149,8 +163,20 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <Footer t={t} />
+      <Footer t={t} lang={lang} />
     </main>
+  );
+}
+
+export default function ServicesPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-brand-blue" />
+      </div>
+    }>
+      <ServicesContent />
+    </Suspense>
   );
 }
 

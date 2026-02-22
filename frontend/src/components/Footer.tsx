@@ -5,24 +5,30 @@ import Link from 'next/link';
 
 interface FooterProps {
   t: any;
+  lang: 'en' | 'cn';
 }
 
-export default function Footer({ t }: FooterProps) {
+export default function Footer({ t, lang }: FooterProps) {
+  const getLink = (path: string) => {
+    const [base, hash] = path.split('#');
+    return `${base}?lang=${lang}${hash ? '#' + hash : ''}`;
+  };
+
   return (
     <footer className="bg-gray-900 text-white py-12">
       <div className="max-w-6xl mx-auto px-6 text-center">
         <div className="flex flex-col md:flex-row justify-center gap-8 mb-8 text-gray-400 font-medium">
-          <Link href="/" className="hover:text-white transition-colors">Home</Link>
-          <Link href="/about" className="hover:text-white transition-colors">About Us</Link>
-          <Link href="/services" className="hover:text-white transition-colors">Services</Link>
-          <Link href="/book" className="hover:text-white transition-colors font-bold text-brand-blue">Book Now</Link>
+          <Link href={getLink('/')} className="hover:text-white transition-colors">{t.nav.home}</Link>
+          <Link href={getLink('/about')} className="hover:text-white transition-colors">{t.nav.about}</Link>
+          <Link href={getLink('/services')} className="hover:text-white transition-colors">{t.nav.services}</Link>
+          <Link href={getLink('/book')} className="hover:text-white transition-colors font-bold text-brand-blue">{t.nav.book}</Link>
         </div>
         <p className="text-lg font-medium">{t.footer.contact}</p>
-        <p className="text-gray-500 mt-4 text-sm">© 2026 ScooPo. All rights reserved.</p>
+        <p className="text-gray-500 mt-4 text-sm">{t.footer.rights}</p>
         <div className="mt-6 flex justify-center gap-4 text-xs text-gray-600">
-          <a href="#" className="hover:text-gray-400">Privacy Policy</a>
+          <Link href={getLink('/privacy')} className="hover:text-gray-400">{t.footer.privacy}</Link>
           <span>•</span>
-          <a href="#" className="hover:text-gray-400">Terms of Service</a>
+          <Link href={getLink('/terms')} className="hover:text-gray-400">{t.footer.terms}</Link>
         </div>
       </div>
     </footer>
