@@ -124,7 +124,7 @@ ScooPo 宠物清洁
       await resend.emails.send({
         from: process.env.RESEND_FROM_EMAIL!,
         to: email,
-        reply_to: process.env.RESEND_TO_EMAIL!,
+        replyTo: process.env.RESEND_TO_EMAIL!,
         subject: isEnglish ? 'We Received Your Message - ScooPo' : '我们已收到您的留言 - ScooPo',
         text: customerEmailText,
       });

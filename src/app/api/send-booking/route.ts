@@ -144,7 +144,7 @@ ScooPo 宠物清洁
       await resend.emails.send({
         from: process.env.RESEND_FROM_EMAIL!,
         to: email,
-        reply_to: process.env.RESEND_TO_EMAIL!,
+        replyTo: process.env.RESEND_TO_EMAIL!,
         subject: isEnglish ? 'Booking Confirmed - ScooPo Pet Cleaning Service' : '预约确认 - ScooPo 宠物清洁服务',
         text: customerEmailText,
       });
