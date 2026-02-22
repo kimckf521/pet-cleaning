@@ -1,0 +1,9 @@
+{
+  "name": "pet-cleaning-monorepo",
+  "private": true,
+  "scripts": {
+    "build": "cd frontend && npm run build",
+    "install": "npm install --prefix frontend",
+    "dev": "cd frontend && npm run dev"
+  }
+}
