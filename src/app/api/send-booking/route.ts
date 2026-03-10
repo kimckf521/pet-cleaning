@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 选择方案：${plan_name}
-猫咪数量：${num_cats}
+猫砂盆数量：${num_cats}
 每周期数：${frequency === 'custom' ? '7次以上 (联系定制)' : `${frequency} 次`}
 语言偏好：${language}
 
@@ -54,7 +54,7 @@ Thank you for choosing ScooPo! We've received your booking request and our team 
 📋 YOUR BOOKING DETAILS
 
 Plan: ${plan_name}
-Number of Cats: ${num_cats}
+Number of Cat Litter Boxes: ${num_cats}
 Visits per Week: ${frequency === 'custom' ? '7+ (Custom Quote)' : `${frequency} visits/week`}
 Service Address: ${address}
 Contact Phone: ${phone}
@@ -97,7 +97,7 @@ Serving Box Hill & Blackburn Area
 📋 您的预约详情
 
 服务方案：${plan_name}
-猫咪数量：${num_cats}
+猫砂盆数量：${num_cats}
 每周期数：${frequency === 'custom' ? '7次以上 (联系定制)' : `${frequency} 次/周`}
 服务地址：${address}
 联系电话：${phone}

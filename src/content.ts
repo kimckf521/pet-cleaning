@@ -23,7 +23,7 @@ export const CONTENT = {
       ultimate: { name: 'Ultimate', price: '$20/visit', features: ['Everything in Premium', 'Food & Water Bowls Cleaning', 'Weekly Cat Litter Box Wash'] },
       btn: 'Choose Plan',
       frequency_label: 'Visits per week:',
-      cats_label: 'Number of cats:',
+      cats_label: 'Number of cat litter boxes:',
       time_unit: 'Time',
       times_unit: 'Times',
       custom: '7+ (Custom Quote)',
@@ -53,7 +53,7 @@ export const CONTENT = {
       address: 'Property Address',
       plan: 'Select Plan',
       frequency: 'Frequency',
-      cats: 'Number of Cats',
+      cats: 'Number of Cat Litter Boxes',
       submit: 'Confirm Booking',
       success: 'Booking Successful! We will contact you shortly.',
       error: 'Something went wrong. Please try again.',
@@ -69,7 +69,7 @@ export const CONTENT = {
         },
         {
           title: '1. Information We Collect',
-          content: '• Personal Details: Name, email address, phone number.\n• Service Details: Property address, number of pets, and service preferences.\n• Photos: Images of the clean area or secured access point for verification.'
+          content: '• Personal Details: Name, email address, phone number.\n• Service Details: Property address, number of cat litter boxes, and service preferences.\n• Photos: Images of the clean area or secured access point for verification.'
         },
         {
           title: '2. How We Use Your Information',
@@ -133,7 +133,7 @@ export const CONTENT = {
       ultimate: { name: '尊享版', price: '$20/次', features: ['包含优享版所有服务', '饮食器具清洗', '每周清洗猫砂盆'] },
       btn: '选择方案',
       frequency_label: '每周服务次数：',
-      cats_label: '猫咪数量：',
+      cats_label: '猫砂盆数量：',
       time_unit: '次/周',
       times_unit: '次/周',
       custom: '7+ (定制方案)',
@@ -153,7 +153,7 @@ export const CONTENT = {
       address: '地址',
       plan: '选择方案',
       frequency: '服务频率',
-      cats: '猫咪数量',
+      cats: '猫砂盆数量',
       submit: '确认预约',
       success: '预约成功！我们将尽快联系您。',
       error: '出错了，请重试。',
@@ -179,7 +179,7 @@ export const CONTENT = {
         },
         {
           title: '1. 信息收集',
-          content: '• 个人详情：姓名、电子邮件、电话号码。\n• 服务详情：物业地址、宠物数量及服务偏好。\n• 照片：为验证服务完成情况而拍摄的清洁区域或门禁关闭的照片。'
+          content: '• 个人详情：姓名、电子邮件、电话号码。\n• 服务详情：物业地址、猫砂盆数量及服务偏好。\n• 照片：为验证服务完成情况而拍摄的清洁区域或门禁关闭的照片。'
         },
         {
           title: '2. 信息用途',
