@@ -16,7 +16,7 @@ export default function Footer({ t, lang }: FooterProps) {
   };
 
   return (
-    <footer className="bg-gray-900 text-white py-12">
+    <footer aria-label="Site footer" className="bg-gray-900 text-white py-12">
       <div className="max-w-6xl mx-auto px-6 text-center">
         <div className="flex justify-center mb-8">
           <Link href={getLink('/')} className="flex items-center gap-2 group">

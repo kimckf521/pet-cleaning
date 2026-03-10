@@ -1,0 +1,71 @@
+
+> wastewhisk-frontend@0.1.0 build
+> next build
+
+   ▲ Next.js 14.1.0
+
+   Creating an optimized production build ...
+(node:45765) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+<w> [webpack.cache.PackFileCacheStrategy] Skipped not serializable cache item 'Compilation/modules|/Volumes/Extreme/VS Code/pet_cleaning/node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[2]!/Volumes/Extreme/VS Code/pet_cleaning/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[3]!/Volumes/Extreme/VS Code/pet_cleaning/src/app/globals.css': No serializer registered for PostCSSSyntaxError
+<w> while serializing webpack/lib/cache/PackFileCacheStrategy.PackContentItems -> webpack/lib/NormalModule -> webpack/lib/ModuleBuildError -> PostCSSSyntaxError
+Failed to compile.
+
+./src/app/globals.css:31:5
+Syntax error: /Volumes/Extreme/VS Code/pet_cleaning/src/app/globals.css The `hover:bg-brand-blue-dark` class does not exist. If `hover:bg-brand-blue-dark` is a custom class, make sure it is defined within a `@layer` directive.
+
+  29 | 
+  30 |   .btn-primary {
+> 31 |     @apply bg-brand-blue text-white px-8 py-3 rounded-full font-bold shadow-lg hover:shadow-sky-500/20 hover:bg-brand-blue-dark transition-all transform hover:-translate-y-0.5 active:translate-y-0;
+     |     ^
+  32 |   }
+  33 |
+
+./src/app/globals.css
+Syntax error: /Volumes/Extreme/VS Code/pet_cleaning/src/app/globals.css The `hover:bg-brand-blue-dark` class does not exist. If `hover:bg-brand-blue-dark` is a custom class, make sure it is defined within a `@layer` directive. (31:5)
+
+  29 | 
+  30 |   .btn-primary {
+> 31 |     @apply bg-brand-blue text-white px-8 py-3 rounded-full font-bold shadow-lg hover:shadow-sky-500/20 hover:bg-brand-blue-dark transition-all transform hover:-translate-y-0.5 active:translate-y-0;
+     |     ^
+  32 |   }
+  33 | 
+
+    at tryRunOrWebpackError (/Volumes/Extreme/VS Code/pet_cleaning/node_modules/next/dist/compiled/webpack/bundle5.js:28:311563)
+    at __webpack_require_module__ (/Volumes/Extreme/VS Code/pet_cleaning/node_modules/next/dist/compiled/webpack/bundle5.js:28:131195)
+    at __nested_webpack_require_153754__ (/Volumes/Extreme/VS Code/pet_cleaning/node_modules/next/dist/compiled/webpack/bundle5.js:28:130634)
+    at /Volumes/Extreme/VS Code/pet_cleaning/node_modules/next/dist/compiled/webpack/bundle5.js:28:131487
+    at symbolIterator (/Volumes/Extreme/VS Code/pet_cleaning/node_modules/next/dist/compiled/neo-async/async.js:1:14444)
+    at done (/Volumes/Extreme/VS Code/pet_cleaning/node_modules/next/dist/compiled/neo-async/async.js:1:14824)
+    at Hook.eval [as callAsync] (eval at create (/Volumes/Extreme/VS Code/pet_cleaning/node_modules/next/dist/compiled/webpack/bundle5.js:13:28867), <anonymous>:15:1)
+    at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (/Volumes/Extreme/VS Code/pet_cleaning/node_modules/next/dist/compiled/webpack/bundle5.js:13:26021)
+    at /Volumes/Extreme/VS Code/pet_cleaning/node_modules/next/dist/compiled/webpack/bundle5.js:28:130354
+    at symbolIterator (/Volumes/Extreme/VS Code/pet_cleaning/node_modules/next/dist/compiled/neo-async/async.js:1:14402)
+-- inner error --
+Syntax error: /Volumes/Extreme/VS Code/pet_cleaning/src/app/globals.css The `hover:bg-brand-blue-dark` class does not exist. If `hover:bg-brand-blue-dark` is a custom class, make sure it is defined within a `@layer` directive. (31:5)
+
+  29 | 
+  30 |   .btn-primary {
+> 31 |     @apply bg-brand-blue text-white px-8 py-3 rounded-full font-bold shadow-lg hover:shadow-sky-500/20 hover:bg-brand-blue-dark transition-all transform hover:-translate-y-0.5 active:translate-y-0;
+     |     ^
+  32 |   }
+  33 | 
+
+    at Object.<anonymous> (/Volumes/Extreme/VS Code/pet_cleaning/node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[2]!/Volumes/Extreme/VS Code/pet_cleaning/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[3]!/Volumes/Extreme/VS Code/pet_cleaning/src/app/globals.css:1:7)
+    at /Volumes/Extreme/VS Code/pet_cleaning/node_modules/next/dist/compiled/webpack/bundle5.js:28:915116
+    at Hook.eval [as call] (eval at create (/Volumes/Extreme/VS Code/pet_cleaning/node_modules/next/dist/compiled/webpack/bundle5.js:13:28645), <anonymous>:7:1)
+    at Hook.CALL_DELEGATE [as _call] (/Volumes/Extreme/VS Code/pet_cleaning/node_modules/next/dist/compiled/webpack/bundle5.js:13:25915)
+    at /Volumes/Extreme/VS Code/pet_cleaning/node_modules/next/dist/compiled/webpack/bundle5.js:28:131228
+    at tryRunOrWebpackError (/Volumes/Extreme/VS Code/pet_cleaning/node_modules/next/dist/compiled/webpack/bundle5.js:28:311517)
+    at __webpack_require_module__ (/Volumes/Extreme/VS Code/pet_cleaning/node_modules/next/dist/compiled/webpack/bundle5.js:28:131195)
+    at __nested_webpack_require_153754__ (/Volumes/Extreme/VS Code/pet_cleaning/node_modules/next/dist/compiled/webpack/bundle5.js:28:130634)
+    at /Volumes/Extreme/VS Code/pet_cleaning/node_modules/next/dist/compiled/webpack/bundle5.js:28:131487
+    at symbolIterator (/Volumes/Extreme/VS Code/pet_cleaning/node_modules/next/dist/compiled/neo-async/async.js:1:14444)
+
+Generated code for /Volumes/Extreme/VS Code/pet_cleaning/node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[2]!/Volumes/Extreme/VS Code/pet_cleaning/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[11].oneOf[12].use[3]!/Volumes/Extreme/VS Code/pet_cleaning/src/app/globals.css
+
+Import trace for requested module:
+./src/app/globals.css
+
+
+> Build failed because of webpack errors

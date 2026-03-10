@@ -26,7 +26,7 @@ export default function Navbar({ lang, setLang, t }: NavbarProps) {
   };
 
   return (
-    <nav className="fixed w-full bg-white/90 backdrop-blur-md shadow-sm z-50">
+    <nav aria-label="Main navigation" className="fixed w-full bg-white/90 backdrop-blur-md shadow-sm z-50">
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
         <Link href={getLink('/')} className="text-2xl font-bold text-brand-blue flex items-center gap-2">
           <Image src="/logo.png" alt="ScooPo Logo" width={40} height={40} className="w-10 h-10 object-contain" />
