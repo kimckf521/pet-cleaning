@@ -8,6 +8,73 @@ import { CONTENT } from '@/content';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
+const SITE_URL = 'https://scoopo.com.au';
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+    { '@type': 'ListItem', position: 2, name: 'Services', item: `${SITE_URL}/services` },
+  ],
+};
+
+const serviceJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Pet Waste Removal & Cat Litter Cleaning',
+  serviceType: 'Pet Cleaning Service',
+  provider: { '@id': `${SITE_URL}/#localbusiness` },
+  areaServed: [
+    { '@type': 'City', name: 'Melbourne' },
+    { '@type': 'AdministrativeArea', name: 'Box Hill' },
+    { '@type': 'AdministrativeArea', name: 'Blackburn' },
+  ],
+  description:
+    'Professional pet waste removal, cat litter cleaning, sanitization, deodorizing and vacuuming services in Melbourne.',
+  url: `${SITE_URL}/services`,
+  offers: {
+    '@type': 'AggregateOffer',
+    lowPrice: '10',
+    highPrice: '20',
+    priceCurrency: 'AUD',
+    offerCount: 3,
+  },
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Pet Cleaning Plans',
+    itemListElement: [
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Essential – Cat Litter Removal & Vacuum',
+        },
+        price: '10.00',
+        priceCurrency: 'AUD',
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Premium – Full Care with Food & Water Refill',
+        },
+        price: '15.00',
+        priceCurrency: 'AUD',
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Ultimate – Complete Hygiene Management',
+        },
+        price: '20.00',
+        priceCurrency: 'AUD',
+      },
+    ],
+  },
+};
+
 function ServicesContent() {
   const [lang, setLang] = useState<'en' | 'cn'>('en');
   const searchParams = useSearchParams();
@@ -81,6 +148,14 @@ function ServicesContent() {
 
   return (
     <main className="min-h-screen bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
+      />
       <Navbar lang={lang} setLang={setLang} t={t} />
 
       {/* Header */}

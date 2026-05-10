@@ -21,7 +21,7 @@ export default function Footer({ t, lang }: FooterProps) {
         <div className="flex justify-center mb-8">
           <Link href={getLink('/')} className="flex items-center gap-2 group">
             <div className="bg-white p-2 rounded-full shadow-lg group-hover:scale-110 transition-transform">
-              <Image src="/logo.png" alt="ScooPo Logo" width={40} height={40} className="w-10 h-10 object-contain" />
+              <Image src="/logo.png" alt="ScooPo logo" width={40} height={40} className="w-10 h-10 object-contain" />
             </div>
             <span className="text-2xl font-bold">{t.nav.logo}</span>
           </Link>

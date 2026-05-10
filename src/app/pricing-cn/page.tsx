@@ -20,6 +20,17 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { CONTENT } from '@/content';
 
+const SITE_URL = 'https://scoopo.com.au';
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: '首页', item: SITE_URL },
+    { '@type': 'ListItem', position: 2, name: '收费方案', item: `${SITE_URL}/pricing-cn` },
+  ],
+};
+
 const pricingData = [
   {
     name: 'Essential (基础版)',
@@ -84,6 +95,10 @@ function PricingContent() {
 
   return (
     <main className="min-h-screen bg-white selection:bg-brand-blue selection:text-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <div className="print:hidden">
         <Navbar lang={lang} setLang={setLang} t={t} />
       </div>

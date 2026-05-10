@@ -16,11 +16,11 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'ScooPo – Professional Pet Waste Removal & Cat Litter Cleaning | Melbourne',
+    default: 'Pet Waste Removal & Cat Litter Cleaning Melbourne | ScooPo',
     template: '%s | ScooPo',
   },
   description:
-    "Melbourne's only pet cleaning service that scoops, removes waste AND vacuums. Serving Box Hill, Blackburn & surrounds. Cat litter cleaning, sanitization & deodorizing from $10/visit.",
+    'Pet waste removal & cat litter cleaning in Melbourne. Scoop, sanitize, deodorize & vacuum from $10/visit. Serving Box Hill, Blackburn & surrounds.',
   keywords: [
     'pet waste removal Melbourne',
     'cat litter cleaning Melbourne',
@@ -51,9 +51,10 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_AU',
+    alternateLocale: ['zh_CN'],
     url: SITE_URL,
     siteName: 'ScooPo',
-    title: 'ScooPo – Professional Pet Waste Removal & Cat Litter Cleaning | Melbourne',
+    title: 'Pet Waste Removal & Cat Litter Cleaning Melbourne | ScooPo',
     description:
       "Melbourne's only pet cleaning service that scoops, removes waste AND vacuums. Cat litter cleaning, sanitization & deodorizing from $10/visit.",
     images: [
@@ -61,19 +62,24 @@ export const metadata: Metadata = {
         url: '/logo.png',
         width: 512,
         height: 512,
-        alt: 'ScooPo Logo – Pet Waste Removal Melbourne',
+        alt: 'ScooPo – Pet Waste Removal & Cat Litter Cleaning Melbourne',
       },
     ],
   },
   twitter: {
     card: 'summary',
-    title: 'ScooPo – Pet Waste Removal & Cat Litter Cleaning | Melbourne',
+    title: 'Pet Waste Removal & Cat Litter Cleaning Melbourne | ScooPo',
     description:
-      "Melbourne's only service that scoops, removes waste AND vacuums. From $10/visit.",
+      "Melbourne's only pet cleaning service that scoops, removes waste AND vacuums. From $10/visit.",
     images: ['/logo.png'],
   },
   alternates: {
-    canonical: SITE_URL,
+    canonical: '/',
+    languages: {
+      'en-AU': '/',
+      'zh-CN': '/pricing-cn',
+      'x-default': '/',
+    },
   },
   icons: {
     icon: [
@@ -85,27 +91,28 @@ export const metadata: Metadata = {
       { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
     ],
   },
+  manifest: '/site.webmanifest',
 };
 
-// JSON-LD Structured Data for LocalBusiness
-const jsonLd = {
+const localBusinessJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
+  '@id': `${SITE_URL}/#localbusiness`,
   name: 'ScooPo',
   description:
-    'Professional pet waste removal, cat litter cleaning, sanitization and vacuuming service in Melbourne.',
+    'Professional pet waste removal, cat litter cleaning, sanitization and vacuuming service in Melbourne. Serving Box Hill, Blackburn and surrounding suburbs.',
   url: SITE_URL,
   logo: `${SITE_URL}/logo.png`,
   image: `${SITE_URL}/logo.png`,
-  telephone: '',
-  areaServed: {
-    '@type': 'City',
-    name: 'Melbourne',
-    containedInPlace: {
-      '@type': 'State',
-      name: 'Victoria',
+  areaServed: [
+    {
+      '@type': 'City',
+      name: 'Melbourne',
+      containedInPlace: { '@type': 'State', name: 'Victoria' },
     },
-  },
+    { '@type': 'AdministrativeArea', name: 'Box Hill' },
+    { '@type': 'AdministrativeArea', name: 'Blackburn' },
+  ],
   serviceArea: {
     '@type': 'GeoCircle',
     geoMidpoint: {
@@ -117,6 +124,21 @@ const jsonLd = {
   },
   priceRange: '$10 - $20 per visit',
   currenciesAccepted: 'AUD',
+  paymentAccepted: 'Cash, Credit Card, Bank Transfer',
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+      opens: '08:00',
+      closes: '20:00',
+    },
+  ],
+  sameAs: [
+    'https://www.facebook.com/share/1ArdBZ5Ft6/?mibextid=wwXIfr',
+    'https://www.instagram.com/scoopoau',
+    'https://www.tiktok.com/@scoopoau',
+    'https://xhslink.com/m/64cpBmXeB5q',
+  ],
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
     name: 'Pet Cleaning Services',
@@ -126,6 +148,8 @@ const jsonLd = {
         itemOffered: {
           '@type': 'Service',
           name: 'Essential – Cat Litter Removal & Vacuum',
+          provider: { '@id': `${SITE_URL}/#localbusiness` },
+          areaServed: 'Melbourne',
         },
         price: '10.00',
         priceCurrency: 'AUD',
@@ -135,6 +159,8 @@ const jsonLd = {
         itemOffered: {
           '@type': 'Service',
           name: 'Premium – Full Care with Food & Water Refill',
+          provider: { '@id': `${SITE_URL}/#localbusiness` },
+          areaServed: 'Melbourne',
         },
         price: '15.00',
         priceCurrency: 'AUD',
@@ -144,12 +170,25 @@ const jsonLd = {
         itemOffered: {
           '@type': 'Service',
           name: 'Ultimate – Complete Hygiene Management',
+          provider: { '@id': `${SITE_URL}/#localbusiness` },
+          areaServed: 'Melbourne',
         },
         price: '20.00',
         priceCurrency: 'AUD',
       },
     ],
   },
+};
+
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${SITE_URL}/#website`,
+  url: SITE_URL,
+  name: 'ScooPo',
+  description: 'Professional pet waste removal and cat litter cleaning in Melbourne.',
+  publisher: { '@id': `${SITE_URL}/#localbusiness` },
+  inLanguage: ['en-AU', 'zh-CN'],
 };
 
 export default function RootLayout({
@@ -172,14 +211,16 @@ export default function RootLayout({
             gtag('config', 'G-E182X95P9E');
           `}
         </Script>
-      </head>
-      <body className={inter.className}>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
         />
-        {children}
-      </body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
+      </head>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }
