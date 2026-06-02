@@ -57,21 +57,12 @@ export const metadata: Metadata = {
     title: 'Pet Waste Removal & Cat Litter Cleaning Melbourne | ScooPo',
     description:
       "Melbourne's only pet cleaning service that scoops, removes waste AND vacuums. Cat litter cleaning, sanitization & deodorizing from $10/visit.",
-    images: [
-      {
-        url: '/logo.png',
-        width: 512,
-        height: 512,
-        alt: 'ScooPo – Pet Waste Removal & Cat Litter Cleaning Melbourne',
-      },
-    ],
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: 'Pet Waste Removal & Cat Litter Cleaning Melbourne | ScooPo',
     description:
       "Melbourne's only pet cleaning service that scoops, removes waste AND vacuums. From $10/visit.",
-    images: ['/logo.png'],
   },
   alternates: {
     canonical: '/',
@@ -103,7 +94,7 @@ const localBusinessJsonLd = {
     'Professional pet waste removal, cat litter cleaning, sanitization and vacuuming service in Melbourne. Serving Box Hill, Blackburn and surrounding suburbs.',
   url: SITE_URL,
   logo: `${SITE_URL}/logo.png`,
-  image: `${SITE_URL}/logo.png`,
+  image: `${SITE_URL}/opengraph-image`,
   areaServed: [
     {
       '@type': 'City',

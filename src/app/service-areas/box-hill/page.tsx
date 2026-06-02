@@ -180,6 +180,43 @@ function BoxHillContent() {
         </div>
       </section>
 
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-5xl mx-auto px-4">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+            Other ScooPo pages
+          </h2>
+          <div className="grid sm:grid-cols-3 gap-4">
+            <Link
+              href="/services"
+              className="group p-5 rounded-2xl bg-white border border-gray-100 hover:border-brand-blue/40 hover:shadow transition-all"
+            >
+              <div className="text-xs font-bold uppercase tracking-wider text-brand-blue mb-1">
+                Services
+              </div>
+              <div className="font-bold text-gray-900">Deep cleaning &amp; sanitization</div>
+            </Link>
+            <Link
+              href="/service-areas/blackburn"
+              className="group p-5 rounded-2xl bg-white border border-gray-100 hover:border-brand-blue/40 hover:shadow transition-all"
+            >
+              <div className="text-xs font-bold uppercase tracking-wider text-brand-blue mb-1">
+                Nearby suburb
+              </div>
+              <div className="font-bold text-gray-900">Blackburn pet cleaning</div>
+            </Link>
+            <Link
+              href="/about"
+              className="group p-5 rounded-2xl bg-white border border-gray-100 hover:border-brand-blue/40 hover:shadow transition-all"
+            >
+              <div className="text-xs font-bold uppercase tracking-wider text-brand-blue mb-1">
+                About
+              </div>
+              <div className="font-bold text-gray-900">Our mission &amp; values</div>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <Footer t={t} lang={lang} />
     </main>
   );
