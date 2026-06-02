@@ -7,7 +7,7 @@ import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
-const SITE_URL = 'https://scoopo.com.au';
+const SITE_URL = 'https://www.scooposervice.com';
 
 export const viewport: Viewport = {
   width: 'device-width',

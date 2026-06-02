@@ -20,7 +20,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { CONTENT } from '@/content';
 
-const SITE_URL = 'https://scoopo.com.au';
+const SITE_URL = 'https://www.scooposervice.com';
 
 const breadcrumbJsonLd = {
   '@context': 'https://schema.org',

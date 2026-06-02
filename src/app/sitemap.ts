@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 
-const SITE_URL = 'https://scoopo.com.au';
+const SITE_URL = 'https://www.scooposervice.com';
 
 const SUBURB_SLUGS = [
   'box-hill',

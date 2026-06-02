@@ -8,7 +8,7 @@ import { CONTENT } from '@/content';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
-const SITE_URL = 'https://scoopo.com.au';
+const SITE_URL = 'https://www.scooposervice.com';
 
 const FAQS_EN = [
   {
