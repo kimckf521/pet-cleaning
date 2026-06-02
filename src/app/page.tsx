@@ -72,6 +72,44 @@ const FAQS_CN = [
   },
 ];
 
+const SUBURBS = [
+  {
+    slug: 'box-hill',
+    name: 'Box Hill',
+    nameCn: 'Box Hill',
+    blurbEn: 'Weekly cat litter cleaning and pet waste removal across Box Hill, Box Hill North & Box Hill South.',
+    blurbCn: '为 Box Hill、Box Hill North 和 Box Hill South 提供每周猫砂清理和宠物粪便清理服务。',
+  },
+  {
+    slug: 'blackburn',
+    name: 'Blackburn',
+    nameCn: 'Blackburn',
+    blurbEn: 'Reliable scoop, vacuum and sanitize visits for Blackburn cat owners. No contracts, no travel fees.',
+    blurbCn: '为 Blackburn 养猫家庭提供可靠的清理、吸尘和消毒上门服务。无合约，无路费。',
+  },
+  {
+    slug: 'mont-albert',
+    name: 'Mont Albert',
+    nameCn: 'Mont Albert',
+    blurbEn: 'Leafy residential streets bordering Box Hill. Discreet drop-in cleaning, weekly from $10.',
+    blurbCn: '紧邻 Box Hill 的安静住宅区。低调上门清洁，每周 $10 起。',
+  },
+  {
+    slug: 'surrey-hills',
+    name: 'Surrey Hills',
+    nameCn: 'Surrey Hills',
+    blurbEn: 'Heritage homes between Box Hill and Camberwell. Houses, units and apartments all served.',
+    blurbCn: '位于 Box Hill 和 Camberwell 之间的历史社区。独立屋、公寓、公寓楼均可上门服务。',
+  },
+  {
+    slug: 'doncaster',
+    name: 'Doncaster',
+    nameCn: 'Doncaster',
+    blurbEn: 'North of Box Hill, covering Westfield Doncaster, Doncaster East and Doncaster Hill.',
+    blurbCn: '位于 Box Hill 北侧，覆盖 Westfield Doncaster、Doncaster East 和 Doncaster Hill。',
+  },
+];
+
 const faqJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -531,47 +569,30 @@ function HomeContent() {
                 : '本地墨尔本宠物清洁服务。查看您所在郊区的方案和价格。'}
             </p>
           </div>
-          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            <Link
-              href={`/service-areas/box-hill?lang=${lang}`}
-              className="group p-8 rounded-3xl border border-gray-100 bg-gray-50 hover:bg-blue-50 hover:border-brand-blue/30 transition-all hover:-translate-y-1"
-            >
-              <div className="flex items-center gap-3 mb-3 text-brand-blue">
-                <MapPin size={24} />
-                <span className="text-sm font-bold uppercase tracking-wider">
-                  {lang === 'en' ? 'Service Area' : '服务区域'}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {SUBURBS.map((s) => (
+              <Link
+                key={s.slug}
+                href={`/service-areas/${s.slug}?lang=${lang}`}
+                className="group p-8 rounded-3xl border border-gray-100 bg-gray-50 hover:bg-blue-50 hover:border-brand-blue/30 transition-all hover:-translate-y-1"
+              >
+                <div className="flex items-center gap-3 mb-3 text-brand-blue">
+                  <MapPin size={24} />
+                  <span className="text-sm font-bold uppercase tracking-wider">
+                    {lang === 'en' ? 'Service Area' : '服务区域'}
+                  </span>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                  {lang === 'en' ? s.name : s.nameCn}
+                </h3>
+                <p className="text-gray-600 mb-4 text-sm leading-relaxed">
+                  {lang === 'en' ? s.blurbEn : s.blurbCn}
+                </p>
+                <span className="inline-flex items-center gap-2 font-bold text-brand-blue group-hover:gap-3 transition-all">
+                  {lang === 'en' ? `View ${s.name} plans` : `查看 ${s.name} 方案`} <ArrowRight size={18} />
                 </span>
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Box Hill</h3>
-              <p className="text-gray-600 mb-4">
-                {lang === 'en'
-                  ? 'Weekly cat litter cleaning and pet waste removal across Box Hill, Box Hill North & Box Hill South.'
-                  : '为 Box Hill、Box Hill North 和 Box Hill South 提供每周猫砂清理和宠物粪便清理服务。'}
-              </p>
-              <span className="inline-flex items-center gap-2 font-bold text-brand-blue group-hover:gap-3 transition-all">
-                {lang === 'en' ? 'View Box Hill plans' : '查看 Box Hill 方案'} <ArrowRight size={18} />
-              </span>
-            </Link>
-            <Link
-              href={`/service-areas/blackburn?lang=${lang}`}
-              className="group p-8 rounded-3xl border border-gray-100 bg-gray-50 hover:bg-blue-50 hover:border-brand-blue/30 transition-all hover:-translate-y-1"
-            >
-              <div className="flex items-center gap-3 mb-3 text-brand-blue">
-                <MapPin size={24} />
-                <span className="text-sm font-bold uppercase tracking-wider">
-                  {lang === 'en' ? 'Service Area' : '服务区域'}
-                </span>
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Blackburn</h3>
-              <p className="text-gray-600 mb-4">
-                {lang === 'en'
-                  ? 'Reliable scoop, vacuum and sanitize visits for Blackburn cat owners. No contracts, no travel fees.'
-                  : '为 Blackburn 养猫家庭提供可靠的清理、吸尘和消毒上门服务。无合约，无路费。'}
-              </p>
-              <span className="inline-flex items-center gap-2 font-bold text-brand-blue group-hover:gap-3 transition-all">
-                {lang === 'en' ? 'View Blackburn plans' : '查看 Blackburn 方案'} <ArrowRight size={18} />
-              </span>
-            </Link>
+              </Link>
+            ))}
           </div>
         </div>
       </section>

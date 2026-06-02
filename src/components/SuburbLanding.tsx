@@ -9,42 +9,54 @@ import { CONTENT } from '@/content';
 
 const SITE_URL = 'https://scoopo.com.au';
 
-const breadcrumbJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
-    { '@type': 'ListItem', position: 2, name: 'Service Areas', item: `${SITE_URL}/service-areas/box-hill` },
-    { '@type': 'ListItem', position: 3, name: 'Box Hill', item: `${SITE_URL}/service-areas/box-hill` },
-  ],
-};
+export interface SuburbProps {
+  name: string;
+  slug: string;
+  postcode: string;
+  intro: string;
+  nearby: Array<{ name: string; slug: string }>;
+}
 
-const serviceJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Service',
-  serviceType: 'Pet Waste Removal & Cat Litter Cleaning',
-  provider: { '@id': `${SITE_URL}/#localbusiness` },
-  areaServed: {
-    '@type': 'AdministrativeArea',
-    name: 'Box Hill',
-    containedInPlace: {
-      '@type': 'City',
-      name: 'Melbourne',
-      containedInPlace: { '@type': 'State', name: 'Victoria' },
+function buildBreadcrumbJsonLd(name: string, slug: string) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Service Areas', item: `${SITE_URL}/service-areas/${slug}` },
+      { '@type': 'ListItem', position: 3, name, item: `${SITE_URL}/service-areas/${slug}` },
+    ],
+  };
+}
+
+function buildServiceJsonLd(name: string, slug: string) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    serviceType: 'Pet Waste Removal & Cat Litter Cleaning',
+    provider: { '@id': `${SITE_URL}/#localbusiness` },
+    areaServed: {
+      '@type': 'AdministrativeArea',
+      name,
+      containedInPlace: {
+        '@type': 'City',
+        name: 'Melbourne',
+        containedInPlace: { '@type': 'State', name: 'Victoria' },
+      },
     },
-  },
-  name: 'Pet Cleaning Service in Box Hill',
-  description:
-    'Professional cat litter cleaning, pet waste removal, sanitization and vacuuming for households in Box Hill, Melbourne.',
-  offers: {
-    '@type': 'AggregateOffer',
-    lowPrice: '10',
-    highPrice: '20',
-    priceCurrency: 'AUD',
-  },
-};
+    name: `Pet Cleaning Service in ${name}`,
+    description: `Professional cat litter cleaning, pet waste removal, sanitization and vacuuming for households in ${name}, Melbourne.`,
+    url: `${SITE_URL}/service-areas/${slug}`,
+    offers: {
+      '@type': 'AggregateOffer',
+      lowPrice: '10',
+      highPrice: '20',
+      priceCurrency: 'AUD',
+    },
+  };
+}
 
-function BoxHillContent() {
+function SuburbContent({ name, slug, postcode, intro, nearby }: SuburbProps) {
   const [lang, setLang] = useState<'en' | 'cn'>('en');
   const t = CONTENT[lang];
 
@@ -52,11 +64,11 @@ function BoxHillContent() {
     <main className="min-h-screen bg-white text-gray-800">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(buildBreadcrumbJsonLd(name, slug)) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(buildServiceJsonLd(name, slug)) }}
       />
 
       <Navbar lang={lang} setLang={setLang} t={t} />
@@ -64,21 +76,20 @@ function BoxHillContent() {
       <section className="pt-32 pb-16 px-4 bg-gradient-to-b from-blue-50 to-white">
         <div className="max-w-4xl mx-auto text-center space-y-6">
           <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-100 text-brand-blue text-sm font-bold rounded-full">
-            <MapPin size={16} /> Service Area
+            <MapPin size={16} /> {name} VIC {postcode}
           </span>
           <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 tracking-tight">
-            Pet Waste Removal & Cat Litter Cleaning in <span className="text-brand-blue">Box Hill</span>
+            Pet Waste Removal &amp; Cat Litter Cleaning in <span className="text-brand-blue">{name}</span>
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Reliable, eco-friendly cleaning visits for cat owners across Box Hill. We scoop, remove,
-            sanitize and vacuum – from just $10 per visit.
+            {intro}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
             <Link
               href="/book"
               className="bg-brand-blue text-white px-8 py-3 rounded-full font-bold shadow-lg hover:bg-cyan-600 transition-colors"
             >
-              Book a Box Hill Visit
+              Book a {name} Visit
             </Link>
             <Link
               href="/services"
@@ -93,15 +104,15 @@ function BoxHillContent() {
       <section className="py-20 bg-white">
         <div className="max-w-5xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">
-            Why Box Hill cat owners choose ScooPo
+            Why {name} cat owners choose ScooPo
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="p-6 rounded-2xl bg-gray-50 text-center">
               <Sparkles className="w-10 h-10 text-brand-blue mx-auto mb-3" />
-              <h3 className="font-bold text-lg mb-2">Local & Reliable</h3>
+              <h3 className="font-bold text-lg mb-2">Local &amp; Reliable</h3>
               <p className="text-gray-600 text-sm">
-                Box Hill is part of our core service radius. Same-week scheduling and consistent
-                arrival times, every week.
+                {name} sits within our core service radius. Same-week scheduling and consistent
+                weekly visits.
               </p>
             </div>
             <div className="p-6 rounded-2xl bg-gray-50 text-center">
@@ -127,7 +138,7 @@ function BoxHillContent() {
       <section className="py-20 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">
-            What&apos;s included in a Box Hill visit
+            What&apos;s included in a {name} visit
           </h2>
           <div className="grid md:grid-cols-2 gap-6">
             {[
@@ -149,25 +160,30 @@ function BoxHillContent() {
 
       <section className="py-20 bg-white">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">Pricing for Box Hill</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">Pricing for {name}</h2>
           <p className="text-lg text-gray-600 mb-8">
-            Same transparent pricing as the rest of our service area. No travel fees within Box
-            Hill.
+            Same transparent pricing as the rest of our service area. No travel fees within {name}.
           </p>
           <div className="grid sm:grid-cols-3 gap-4 text-left">
             <div className="border rounded-2xl p-6 bg-gray-50">
               <h3 className="font-bold text-lg">Essential</h3>
-              <p className="text-3xl font-extrabold text-brand-blue my-2">$10<span className="text-base font-medium text-gray-500">/visit</span></p>
-              <p className="text-sm text-gray-600">Scoop, haul-away & vacuum.</p>
+              <p className="text-3xl font-extrabold text-brand-blue my-2">
+                $10<span className="text-base font-medium text-gray-500">/visit</span>
+              </p>
+              <p className="text-sm text-gray-600">Scoop, haul-away &amp; vacuum.</p>
             </div>
             <div className="border-2 border-brand-blue rounded-2xl p-6 bg-white shadow">
               <h3 className="font-bold text-lg">Premium</h3>
-              <p className="text-3xl font-extrabold text-brand-blue my-2">$15<span className="text-base font-medium text-gray-500">/visit</span></p>
-              <p className="text-sm text-gray-600">Essential + food & water refill.</p>
+              <p className="text-3xl font-extrabold text-brand-blue my-2">
+                $15<span className="text-base font-medium text-gray-500">/visit</span>
+              </p>
+              <p className="text-sm text-gray-600">Essential + food &amp; water refill.</p>
             </div>
             <div className="border rounded-2xl p-6 bg-gray-50">
               <h3 className="font-bold text-lg">Ultimate</h3>
-              <p className="text-3xl font-extrabold text-brand-blue my-2">$20<span className="text-base font-medium text-gray-500">/visit</span></p>
+              <p className="text-3xl font-extrabold text-brand-blue my-2">
+                $20<span className="text-base font-medium text-gray-500">/visit</span>
+              </p>
               <p className="text-sm text-gray-600">Premium + weekly box deep clean.</p>
             </div>
           </div>
@@ -175,7 +191,7 @@ function BoxHillContent() {
             href="/book"
             className="inline-block mt-10 bg-brand-blue text-white px-10 py-4 rounded-full text-lg font-bold shadow-lg hover:bg-cyan-600 transition-colors"
           >
-            Book a Box Hill Visit
+            Book a {name} Visit
           </Link>
         </div>
       </section>
@@ -185,22 +201,17 @@ function BoxHillContent() {
           <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
             Nearby suburbs we service
           </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {[
-              { slug: 'blackburn', name: 'Blackburn' },
-              { slug: 'mont-albert', name: 'Mont Albert' },
-              { slug: 'surrey-hills', name: 'Surrey Hills' },
-              { slug: 'doncaster', name: 'Doncaster' },
-            ].map((s) => (
+          <div className="grid sm:grid-cols-3 gap-4">
+            {nearby.map((n) => (
               <Link
-                key={s.slug}
-                href={`/service-areas/${s.slug}`}
+                key={n.slug}
+                href={`/service-areas/${n.slug}`}
                 className="group p-5 rounded-2xl bg-white border border-gray-100 hover:border-brand-blue/40 hover:shadow transition-all"
               >
                 <div className="text-xs font-bold uppercase tracking-wider text-brand-blue mb-1">
                   Service Area
                 </div>
-                <div className="font-bold text-gray-900">{s.name} pet cleaning</div>
+                <div className="font-bold text-gray-900">{n.name} pet cleaning</div>
               </Link>
             ))}
           </div>
@@ -212,14 +223,16 @@ function BoxHillContent() {
   );
 }
 
-export default function BoxHillPage() {
+export default function SuburbLanding(props: SuburbProps) {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-brand-blue" />
-      </div>
-    }>
-      <BoxHillContent />
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <Loader2 className="w-8 h-8 animate-spin text-brand-blue" />
+        </div>
+      }
+    >
+      <SuburbContent {...props} />
     </Suspense>
   );
 }
