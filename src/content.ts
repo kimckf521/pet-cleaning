@@ -49,6 +49,10 @@ export const CONTENT = {
       loading: 'Sending...',
       error: 'Something went wrong. Please try again.',
       required: 'This field is required',
+      messagePlaceholder: 'How can we help you?',
+      privacyPrefix: 'By submitting, you agree to our ',
+      privacyLink: 'Privacy Policy',
+      privacySuffix: '.',
     },
     modal: {
       title: 'Book Service',
@@ -176,6 +180,10 @@ export const CONTENT = {
       loading: '发送中...',
       error: '出错了，请重试。',
       required: '此项为必填',
+      messagePlaceholder: '请告诉我们您的需求...',
+      privacyPrefix: '提交即表示您同意我们的',
+      privacyLink: '隐私政策',
+      privacySuffix: '。',
     },
     privacy_content: {
       title: '隐私政策',

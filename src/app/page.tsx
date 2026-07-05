@@ -12,6 +12,7 @@ import { PlanKey } from '@/lib/pricing';
 import { SERVICE_AREA_FULL_EN, SERVICE_AREA_FULL_CN } from '@/lib/constants';
 
 const SITE_URL = 'https://www.scooposervice.com';
+const MAX_ENQUIRY_MESSAGE_LENGTH = 1000;
 
 const FAQS_EN = [
   {
@@ -495,6 +496,7 @@ function HomeContent() {
                     setEnquiryData({ ...enquiryData, name: e.target.value });
                     if (enquiryErrors.name) setEnquiryErrors({ ...enquiryErrors, name: false });
                   }}
+                  placeholder="John Doe"
                   className={`w-full border py-3 px-4 rounded-xl leading-tight focus:outline-none transition-colors ${
                     enquiryErrors.name ? 'border-red-300 bg-red-50' : 'bg-white border-gray-200 focus:border-brand-blue'
                   }`}
@@ -517,6 +519,7 @@ function HomeContent() {
                     setEnquiryData({ ...enquiryData, email: e.target.value });
                     if (enquiryErrors.email) setEnquiryErrors({ ...enquiryErrors, email: false });
                   }}
+                  placeholder="you@example.com"
                   className={`w-full border py-3 px-4 rounded-xl leading-tight focus:outline-none transition-colors ${
                     enquiryErrors.email ? 'border-red-300 bg-red-50' : 'bg-white border-gray-200 focus:border-brand-blue'
                   }`}
@@ -532,6 +535,7 @@ function HomeContent() {
                 id="enquiry-phone"
                 value={enquiryData.phone}
                 onChange={(e) => setEnquiryData({ ...enquiryData, phone: e.target.value })}
+                placeholder="0400 000 000"
                 className="w-full bg-white border border-gray-200 text-gray-700 py-3 px-4 rounded-xl leading-tight focus:outline-none focus:border-brand-blue transition-colors"
               />
             </div>
@@ -548,13 +552,18 @@ function HomeContent() {
                 id="enquiry-message"
                 value={enquiryData.message}
                 onChange={(e) => {
-                  setEnquiryData({ ...enquiryData, message: e.target.value });
+                  setEnquiryData({ ...enquiryData, message: e.target.value.slice(0, MAX_ENQUIRY_MESSAGE_LENGTH) });
                   if (enquiryErrors.message) setEnquiryErrors({ ...enquiryErrors, message: false });
                 }}
+                maxLength={MAX_ENQUIRY_MESSAGE_LENGTH}
+                placeholder={t.contact_form.messagePlaceholder}
                 className={`w-full border py-3 px-4 rounded-xl leading-tight focus:outline-none transition-colors h-32 resize-none ${
                   enquiryErrors.message ? 'border-red-300 bg-red-50' : 'bg-white border-gray-200 focus:border-brand-blue'
                 }`}
               />
+              <div className="text-right text-xs text-gray-400 mt-1">
+                {enquiryData.message.length}/{MAX_ENQUIRY_MESSAGE_LENGTH}
+              </div>
             </div>
             {enquiryStatus === 'error' && (
               <div className="flex items-center justify-center gap-2 mb-4 text-red-500 font-semibold text-sm">
@@ -584,6 +593,13 @@ function HomeContent() {
                   t.contact_form.submit
                 )}
               </button>
+              <p className="text-xs text-gray-400 mt-4">
+                {t.contact_form.privacyPrefix}
+                <Link href={`/privacy?lang=${lang}`} className="underline hover:text-brand-blue">
+                  {t.contact_form.privacyLink}
+                </Link>
+                {t.contact_form.privacySuffix}
+              </p>
             </div>
           </form>
         </div>
