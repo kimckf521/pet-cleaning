@@ -219,6 +219,45 @@ function ServicesContent() {
         </div>
       </section>
 
+      {/* Service Areas Cross-link */}
+      <section className="py-20">
+        <div className="container mx-auto px-6 max-w-5xl">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              {lang === 'en' ? 'Where We Service' : '服务区域'}
+            </h2>
+            <p className="text-gray-600">
+              {lang === 'en'
+                ? 'Local pet cleaning across Melbourne\'s eastern suburbs.'
+                : '服务于墨尔本东部郊区的本地宠物清洁。'}
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { slug: 'box-hill', name: 'Box Hill' },
+              { slug: 'blackburn', name: 'Blackburn' },
+              { slug: 'mont-albert', name: 'Mont Albert' },
+              { slug: 'surrey-hills', name: 'Surrey Hills' },
+              { slug: 'doncaster', name: 'Doncaster' },
+            ].map((s) => (
+              <Link
+                key={s.slug}
+                href={`/service-areas/${s.slug}?lang=${lang}`}
+                className="group p-6 rounded-3xl border border-gray-100 bg-gray-50 hover:bg-blue-50 hover:border-brand-blue/30 transition-all"
+              >
+                <div className="text-brand-blue text-sm font-bold uppercase tracking-wider mb-2">
+                  {lang === 'en' ? 'Service Area' : '服务区域'}
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">{s.name}</h3>
+                <span className="inline-flex items-center gap-2 text-brand-blue font-bold group-hover:gap-3 transition-all">
+                  {lang === 'en' ? `View ${s.name} plans` : `查看 ${s.name} 方案`} <ArrowRight size={16} />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-24">
         <div className="container mx-auto px-6 text-center max-w-4xl">

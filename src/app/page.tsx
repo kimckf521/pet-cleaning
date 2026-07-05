@@ -1,11 +1,124 @@
 'use client';
 
 import React, { useState, useEffect, useRef, Suspense } from 'react';
-import { Trash2, Wind, ShieldCheck, Check, X, Minus, Plus, Loader2 } from 'lucide-react';
+import { Trash2, Wind, ShieldCheck, Check, X, Minus, Plus, Loader2, MapPin, ArrowRight } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import { CONTENT } from '@/content';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+
+const SITE_URL = 'https://www.scooposervice.com';
+
+const FAQS_EN = [
+  {
+    q: 'Which areas do you service in Melbourne?',
+    a: 'We currently serve Box Hill, Blackburn and the surrounding suburbs within about 15 km of Box Hill. If you\'re unsure whether we cover your address, send us a message and we\'ll confirm same-day.',
+  },
+  {
+    q: 'How often do you visit?',
+    a: 'You can choose anywhere from 1 visit per week up to daily visits. Most customers go with 2–3 visits a week. Frequencies of 4+ visits get an automatic discount (5–10% off).',
+  },
+  {
+    q: 'Do I need to be home during the visit?',
+    a: 'No. We just need a reliable way to access your cat\'s litter area – a key, code or side gate. After every visit we send you a photo confirming the area is clean and the entry is secure.',
+  },
+  {
+    q: 'What products do you use? Are they safe for my cat?',
+    a: 'We only use pet-safe, biodegradable enzyme cleaners and deodorizers. No harsh chemicals, no fragrances that could irritate your cat – safe to use around food bowls and bedding.',
+  },
+  {
+    q: 'Do you provide the cat litter?',
+    a: 'No. To keep your cat on the litter they\'re used to, we use the supply you provide. Just make sure there\'s enough on hand before our visit.',
+  },
+  {
+    q: 'Can I cancel or pause anytime?',
+    a: 'Yes. There are no contracts. You can pause or cancel future visits at any time with 24 hours notice. Used visits aren\'t refundable.',
+  },
+  {
+    q: 'What if I\'m not happy with a visit?',
+    a: 'We have a satisfaction guarantee. Tell us within 24 hours with a photo and we\'ll come back and re-clean the area at no extra charge.',
+  },
+];
+
+const FAQS_CN = [
+  {
+    q: '你们服务墨尔本的哪些区域？',
+    a: '我们目前服务 Box Hill、Blackburn 以及 Box Hill 周边约 15 公里范围内的郊区。如果不确定您的地址是否在范围内，请发消息给我们，我们会当天确认。',
+  },
+  {
+    q: '可以多频繁上门？',
+    a: '从每周 1 次到每天上门都可以。大多数客户选择每周 2–3 次。每周 4 次以上自动享受 5–10% 折扣。',
+  },
+  {
+    q: '上门服务时我需要在家吗？',
+    a: '不需要。我们只需要一个进入猫砂区域的方式 — 钥匙、密码或侧门。每次服务后我们会发送照片，确认区域已清洁且门已锁好。',
+  },
+  {
+    q: '你们用什么产品？对猫安全吗？',
+    a: '我们只使用对宠物安全的可降解酶清洁剂和除臭剂。不含刺激性化学物质，不含可能刺激猫咪的香精 — 在食盆和猫窝周围使用也很安全。',
+  },
+  {
+    q: '你们提供猫砂吗？',
+    a: '不提供。为了让您的猫继续使用它习惯的猫砂，我们会使用您准备的猫砂。请确保上门前家中有充足的猫砂。',
+  },
+  {
+    q: '可以随时取消或暂停吗？',
+    a: '可以。无需签约。提前 24 小时通知，可随时暂停或取消后续服务。已使用的服务费用不予退还。',
+  },
+  {
+    q: '如果对某次服务不满意怎么办？',
+    a: '我们提供满意保证。请在 24 小时内告知我们并附上照片，我们将免费重新清洁该区域。',
+  },
+];
+
+const SUBURBS = [
+  {
+    slug: 'box-hill',
+    name: 'Box Hill',
+    nameCn: 'Box Hill',
+    blurbEn: 'Weekly cat litter cleaning and pet waste removal across Box Hill, Box Hill North & Box Hill South.',
+    blurbCn: '为 Box Hill、Box Hill North 和 Box Hill South 提供每周猫砂清理和宠物粪便清理服务。',
+  },
+  {
+    slug: 'blackburn',
+    name: 'Blackburn',
+    nameCn: 'Blackburn',
+    blurbEn: 'Reliable scoop, vacuum and sanitize visits for Blackburn cat owners. No contracts, no travel fees.',
+    blurbCn: '为 Blackburn 养猫家庭提供可靠的清理、吸尘和消毒上门服务。无合约，无路费。',
+  },
+  {
+    slug: 'mont-albert',
+    name: 'Mont Albert',
+    nameCn: 'Mont Albert',
+    blurbEn: 'Leafy residential streets bordering Box Hill. Discreet drop-in cleaning, weekly from $10.',
+    blurbCn: '紧邻 Box Hill 的安静住宅区。低调上门清洁，每周 $10 起。',
+  },
+  {
+    slug: 'surrey-hills',
+    name: 'Surrey Hills',
+    nameCn: 'Surrey Hills',
+    blurbEn: 'Heritage homes between Box Hill and Camberwell. Houses, units and apartments all served.',
+    blurbCn: '位于 Box Hill 和 Camberwell 之间的历史社区。独立屋、公寓、公寓楼均可上门服务。',
+  },
+  {
+    slug: 'doncaster',
+    name: 'Doncaster',
+    nameCn: 'Doncaster',
+    blurbEn: 'North of Box Hill, covering Westfield Doncaster, Doncaster East and Doncaster Hill.',
+    blurbCn: '位于 Box Hill 北侧，覆盖 Westfield Doncaster、Doncaster East 和 Doncaster Hill。',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: FAQS_EN.map(({ q, a }) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a },
+  })),
+};
 
 type Lang = 'en' | 'cn';
 
@@ -218,8 +331,14 @@ function HomeContent() {
     return `${planName}${discountStr}`;
   };
 
+  const faqs = lang === 'en' ? FAQS_EN : FAQS_CN;
+
   return (
     <main className="min-h-screen bg-white text-gray-800 font-sans">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       <Navbar lang={lang} setLang={setLang} t={t} />
 
       {/* Hero */}
@@ -480,6 +599,80 @@ function HomeContent() {
                 {frequency === 'custom' ? t.pricing.contact_btn : t.pricing.btn}
               </button>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Service Areas */}
+      <section className="py-20 bg-white">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              {lang === 'en' ? 'Service Areas' : '服务区域'}
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              {lang === 'en'
+                ? 'Local Melbourne pet cleaning. See plans and pricing for your suburb.'
+                : '本地墨尔本宠物清洁服务。查看您所在郊区的方案和价格。'}
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {SUBURBS.map((s) => (
+              <Link
+                key={s.slug}
+                href={`/service-areas/${s.slug}?lang=${lang}`}
+                className="group p-8 rounded-3xl border border-gray-100 bg-gray-50 hover:bg-blue-50 hover:border-brand-blue/30 transition-all hover:-translate-y-1"
+              >
+                <div className="flex items-center gap-3 mb-3 text-brand-blue">
+                  <MapPin size={24} />
+                  <span className="text-sm font-bold uppercase tracking-wider">
+                    {lang === 'en' ? 'Service Area' : '服务区域'}
+                  </span>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                  {lang === 'en' ? s.name : s.nameCn}
+                </h3>
+                <p className="text-gray-600 mb-4 text-sm leading-relaxed">
+                  {lang === 'en' ? s.blurbEn : s.blurbCn}
+                </p>
+                <span className="inline-flex items-center gap-2 font-bold text-brand-blue group-hover:gap-3 transition-all">
+                  {lang === 'en' ? `View ${s.name} plans` : `查看 ${s.name} 方案`} <ArrowRight size={18} />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-3xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              {lang === 'en' ? 'Frequently Asked Questions' : '常见问题'}
+            </h2>
+            <p className="text-lg text-gray-600">
+              {lang === 'en'
+                ? 'Everything you need to know before booking your first clean.'
+                : '预订前需要了解的所有信息。'}
+            </p>
+          </div>
+          <div className="space-y-4">
+            {faqs.map((faq, i) => (
+              <details
+                key={i}
+                className="group bg-white rounded-2xl border border-gray-100 p-6 open:shadow-md transition-shadow"
+              >
+                <summary className="cursor-pointer list-none flex items-center justify-between gap-4 font-bold text-gray-900 text-lg">
+                  <span>{faq.q}</span>
+                  <Plus
+                    size={20}
+                    className="text-brand-blue flex-shrink-0 group-open:rotate-45 transition-transform"
+                  />
+                </summary>
+                <p className="mt-4 text-gray-600 leading-relaxed">{faq.a}</p>
+              </details>
+            ))}
           </div>
         </div>
       </section>

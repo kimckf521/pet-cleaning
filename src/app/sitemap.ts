@@ -1,6 +1,14 @@
 import { MetadataRoute } from 'next';
 import { SITE_URL } from '@/lib/constants';
 
+const SUBURB_SLUGS = [
+  'box-hill',
+  'blackburn',
+  'mont-albert',
+  'surrey-hills',
+  'doncaster',
+];
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
   return [
@@ -34,17 +42,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 0.8,
     },
-    {
-      url: `${SITE_URL}/service-areas/box-hill`,
+    ...SUBURB_SLUGS.map((slug) => ({
+      url: `${SITE_URL}/service-areas/${slug}`,
       lastModified: now,
-      changeFrequency: 'monthly',
+      changeFrequency: 'monthly' as const,
       priority: 0.8,
-    },
-    {
-      url: `${SITE_URL}/service-areas/blackburn`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
+    })),
   ];
 }

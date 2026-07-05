@@ -179,6 +179,33 @@ function BoxHillContent() {
         </div>
       </section>
 
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-5xl mx-auto px-4">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+            Nearby suburbs we service
+          </h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              { slug: 'blackburn', name: 'Blackburn' },
+              { slug: 'mont-albert', name: 'Mont Albert' },
+              { slug: 'surrey-hills', name: 'Surrey Hills' },
+              { slug: 'doncaster', name: 'Doncaster' },
+            ].map((s) => (
+              <Link
+                key={s.slug}
+                href={`/service-areas/${s.slug}`}
+                className="group p-5 rounded-2xl bg-white border border-gray-100 hover:border-brand-blue/40 hover:shadow transition-all"
+              >
+                <div className="text-xs font-bold uppercase tracking-wider text-brand-blue mb-1">
+                  Service Area
+                </div>
+                <div className="font-bold text-gray-900">{s.name} pet cleaning</div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <Footer t={t} lang={lang} />
     </main>
   );
