@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { Trash2, Wind, ShieldCheck, Check, X, Minus, Plus, Loader2 } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { CONTENT } from '@/content';
@@ -30,6 +30,8 @@ function HomeContent() {
   const [frequency, setFrequency] = useState<number | 'custom'>(1);
   const [numCats, setNumCats] = useState(1);
   const router = useRouter();
+  const modalRef = useRef<HTMLDivElement>(null);
+  const previouslyFocusedRef = useRef<HTMLElement | null>(null);
 
   const t = CONTENT[lang];
 
@@ -47,6 +49,51 @@ function HomeContent() {
     setStatus('idle');
     setFormData({ name: '', phone: '', email: '', address: '' });
   };
+
+  useEffect(() => {
+    if (isModalOpen) {
+      previouslyFocusedRef.current = document.activeElement as HTMLElement | null;
+      modalRef.current?.focus();
+
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') {
+          handleClose();
+          return;
+        }
+
+        if (e.key === 'Tab' && modalRef.current) {
+          const focusableElements = modalRef.current.querySelectorAll<HTMLElement>(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          );
+          if (focusableElements.length === 0) return;
+
+          const firstElement = focusableElements[0];
+          const lastElement = focusableElements[focusableElements.length - 1];
+
+          if (e.shiftKey) {
+            if (document.activeElement === firstElement) {
+              e.preventDefault();
+              lastElement.focus();
+            }
+          } else {
+            if (document.activeElement === lastElement) {
+              e.preventDefault();
+              firstElement.focus();
+            }
+          }
+        }
+      };
+
+      document.addEventListener('keydown', handleKeyDown);
+
+      return () => {
+        document.removeEventListener('keydown', handleKeyDown);
+        if (previouslyFocusedRef.current && document.body.contains(previouslyFocusedRef.current)) {
+          previouslyFocusedRef.current.focus();
+        }
+      };
+    }
+  }, [isModalOpen]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -505,7 +552,14 @@ function HomeContent() {
       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center p-4 backdrop-blur-sm">
-          <div className="bg-white rounded-2xl w-full max-w-md p-6 relative shadow-2xl animate-in fade-in zoom-in duration-200">
+          <div
+            ref={modalRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="booking-modal-title"
+            tabIndex={-1}
+            className="bg-white rounded-2xl w-full max-w-md p-6 relative shadow-2xl animate-in fade-in zoom-in duration-200"
+          >
             <button
                onClick={handleClose}
                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
@@ -513,7 +567,7 @@ function HomeContent() {
               <X className="w-6 h-6" />
             </button>
 
-            <h2 className="text-2xl font-bold mb-6 text-gray-900">{t.modal.title}</h2>
+            <h2 id="booking-modal-title" className="text-2xl font-bold mb-6 text-gray-900">{t.modal.title}</h2>
 
             {status === 'success' ? (
               <div className="text-center py-8">

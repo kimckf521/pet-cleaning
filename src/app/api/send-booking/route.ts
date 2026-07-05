@@ -2,6 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
 export async function POST(request: NextRequest) {
+  if (!process.env.RESEND_API_KEY || !process.env.RESEND_FROM_EMAIL || !process.env.RESEND_TO_EMAIL) {
+    console.error('Missing required Resend environment variables (RESEND_API_KEY / RESEND_FROM_EMAIL / RESEND_TO_EMAIL)');
+    return NextResponse.json(
+      { success: false, error: 'Email service is not configured. Please contact us directly.' },
+      { status: 500 }
+    );
+  }
+
   const resend = new Resend(process.env.RESEND_API_KEY);
 
   try {
@@ -128,8 +136,8 @@ ScooPo 宠物清洁
     // Send admin notification email (Chinese)
     try {
       await resend.emails.send({
-        from: process.env.RESEND_FROM_EMAIL!,
-        to: process.env.RESEND_TO_EMAIL!,
+        from: process.env.RESEND_FROM_EMAIL,
+        to: process.env.RESEND_TO_EMAIL,
         subject: `新预约 - ${plan_name}`,
         text: adminEmailText,
       });
@@ -142,9 +150,9 @@ ScooPo 宠物清洁
     // Send customer confirmation email
     try {
       await resend.emails.send({
-        from: process.env.RESEND_FROM_EMAIL!,
+        from: process.env.RESEND_FROM_EMAIL,
         to: email,
-        replyTo: process.env.RESEND_TO_EMAIL!,
+        replyTo: process.env.RESEND_TO_EMAIL,
         subject: isEnglish ? 'Booking Confirmed - ScooPo Pet Cleaning Service' : '预约确认 - ScooPo 宠物清洁服务',
         text: customerEmailText,
       });

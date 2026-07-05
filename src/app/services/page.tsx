@@ -7,8 +7,7 @@ import Link from 'next/link';
 import { CONTENT } from '@/content';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-
-const SITE_URL = 'https://www.scooposervice.com';
+import { SITE_URL } from '@/lib/constants';
 
 const breadcrumbJsonLd = {
   '@context': 'https://schema.org',
