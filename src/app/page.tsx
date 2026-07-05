@@ -1,12 +1,14 @@
 'use client';
 
 import React, { useState, useEffect, useRef, Suspense } from 'react';
-import { Trash2, Wind, ShieldCheck, Check, X, Minus, Plus, Loader2, MapPin, ArrowRight } from 'lucide-react';
+import { Trash2, Wind, ShieldCheck, Check, X, Plus, Loader2, MapPin, ArrowRight } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { CONTENT } from '@/content';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import PricingCard from '@/components/PricingCard';
+import { PlanKey } from '@/lib/pricing';
 
 const SITE_URL = 'https://www.scooposervice.com';
 
@@ -139,6 +141,12 @@ function HomeContent() {
   
   const [enquiryData, setEnquiryData] = useState({ name: '', email: '', message: '' });
   const [enquiryStatus, setEnquiryStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [enquiryWebsite, setEnquiryWebsite] = useState('');
+  const [enquiryFormRenderedAt, setEnquiryFormRenderedAt] = useState(0);
+
+  useEffect(() => {
+    setEnquiryFormRenderedAt(Date.now());
+  }, []);
 
   const [frequency, setFrequency] = useState<number | 'custom'>(1);
   const [numCats, setNumCats] = useState(1);
@@ -148,11 +156,11 @@ function HomeContent() {
 
   const t = CONTENT[lang];
 
-  const handleBookClick = (planName: string) => {
+  const handleBookClick = (planKey: PlanKey) => {
     const params = new URLSearchParams();
     params.set('cats', numCats.toString());
     params.set('freq', frequency.toString());
-    params.set('plan', planName);
+    params.set('plan', planKey);
     params.set('lang', lang);
     router.push(`/book?${params.toString()}`);
   };
@@ -254,6 +262,8 @@ function HomeContent() {
           email: enquiryData.email,
           message: enquiryData.message,
           language: lang === 'en' ? 'English' : 'Chinese',
+          website: enquiryWebsite,
+          formRenderedAt: enquiryFormRenderedAt,
         }),
       });
 
@@ -270,65 +280,6 @@ function HomeContent() {
       console.error('Email sending error:', error);
       setEnquiryStatus('error');
     }
-  };
-
-  const calculateEssentialPrice = (freq: number | 'custom') => {
-    if (freq === 'custom') return lang === 'en' ? 'Quote' : '联系定制';
-    
-    // 1. Calculate Subtotal Per Visit (Base + Extra Cats)
-    const basePricePerVisit = 10;
-    const extraCatFee = (Math.max(1, numCats) - 1) * 5;
-    const subtotalPerVisit = basePricePerVisit + extraCatFee;
-
-    // 2. Apply Discount Rate based on frequency
-    let discountRate = 1.0;
-    if (typeof freq === 'number') {
-      if (freq >= 4 && freq <= 5) discountRate = 0.95; // 5% OFF
-      if (freq >= 6) discountRate = 0.90; // 10% OFF
-    }
-
-    const finalPricePerVisit = subtotalPerVisit * discountRate;
-
-    const total = (finalPricePerVisit * (typeof freq === 'number' ? freq : 1)).toFixed(2).replace(/\.00$/, '').replace(/(\.\d)0$/, '$1'); 
-    return `$${total}${lang === 'en' ? '/Week' : '/周'}`;
-  };
-
-  const calculateStandardPrice = (basePrice: number, freq: number | 'custom') => {
-     if (freq === 'custom') return lang === 'en' ? 'Quote' : '联系定制';
-
-     const extraCatFee = (Math.max(1, numCats) - 1) * 5;
-     const subtotalPerVisit = basePrice + extraCatFee;
-
-     // Apply Discount Rate based on frequency (Same as Essential)
-     let discountRate = 1.0;
-     if (typeof freq === 'number') {
-       if (freq >= 4 && freq <= 5) discountRate = 0.95; // 5% OFF
-       if (freq >= 6) discountRate = 0.90; // 10% OFF
-     }
-
-     const finalPricePerVisit = subtotalPerVisit * discountRate;
-     
-     const total = (finalPricePerVisit * (typeof freq === 'number' ? freq : 1)).toFixed(2).replace(/\.00$/, '').replace(/(\.\d)0$/, '$1');
-     return `$${total}${lang === 'en' ? '/Week' : '/周'}`;
-  };
-
-  const getDiscountBadge = (freq: number | 'custom') => {
-    if (freq === 'custom') return null;
-    if (typeof freq === 'number') {
-      if (freq >= 4 && freq <= 5) return lang === 'en' ? '5% OFF' : '5%优惠';
-      if (freq >= 6) return lang === 'en' ? '10% OFF' : '10%优惠';
-    }
-    return null;
-  };
-
-  const getFormattedPlan = (planName: string) => {
-    if (frequency === 'custom') {
-       return `${planName} (${t.pricing.custom})`;
-    }
-    const discount = getDiscountBadge(frequency);
-    const discountStr = discount ? ` (${discount})` : '';
-    
-    return `${planName}${discountStr}`;
   };
 
   const faqs = lang === 'en' ? FAQS_EN : FAQS_CN;
@@ -384,221 +335,37 @@ function HomeContent() {
       <section id="plans" className="py-20 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Essential */}
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 relative">
-              {getDiscountBadge(frequency) && (
-                <div className="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-bl-xl rounded-tr-lg">
-                  {getDiscountBadge(frequency)}
-                </div>
-              )}
-              <h3 className="text-xl font-bold text-gray-900 text-center">{t.pricing.essential.name}</h3>
-              <div className="text-4xl font-extrabold text-brand-blue my-4 text-center">
-                {calculateEssentialPrice(frequency)}
-              </div>
-              <ul className="space-y-3 mb-8">
-                {t.pricing.essential.features.map((f: string, i: number) => (
-                  <li key={i} className="flex items-center gap-2 text-gray-600">
-                    <Check className="w-5 h-5 text-brand-green" /> {f}
-                  </li>
-                ))}
-              </ul>
-              
-              <div className="mb-6 space-y-4">
-                <div>
-                   <label className="block text-sm font-medium text-center text-gray-700 mb-2">{t.pricing.cats_label}</label>
-                   <div className="flex items-center justify-between w-full bg-gray-50 border border-gray-200 text-gray-700 py-3 px-4 rounded-xl">
-                     <button
-                       onClick={() => setNumCats(Math.max(1, numCats - 1))}
-                       className={`p-1 rounded-full text-brand-blue hover:bg-white transition-colors ${numCats <= 1 ? 'invisible' : ''}`}
-                       disabled={numCats <= 1}
-                     >
-                       <Minus size={20} />
-                     </button>
-                     <span className="font-medium text-lg w-12 text-center">{numCats}</span>
-                     <button
-                       onClick={() => setNumCats(numCats + 1)}
-                       className="p-1 rounded-full text-brand-blue hover:bg-white transition-colors"
-                     >
-                       <Plus size={20} />
-                     </button>
-                   </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-center text-gray-700 mb-2">{t.pricing.frequency_label}</label>
-                  <div className="relative">
-                    <select
-                      value={frequency}
-                      onChange={(e) => setFrequency(e.target.value === 'custom' ? 'custom' : Number(e.target.value))}
-                      className="w-full appearance-none bg-gray-50 border border-gray-200 text-center text-gray-700 py-3 px-4 pr-8 rounded-xl leading-tight focus:outline-none focus:bg-white focus:border-brand-blue"
-                    >
-                      {[1, 2, 3, 4, 5, 6, 7].map(num => (
-                        <option key={num} value={num}>
-                          {num} {lang === 'en' ? (num === 1 ? 'Time' : 'Times') : t.pricing.times_unit}{getDiscountBadge(num) ? ` (${getDiscountBadge(num)})` : ''}
-                        </option>
-                      ))}
-                      <option value="custom">{t.pricing.custom}</option>
-                    </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                      <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <button
-                onClick={() => handleBookClick(getFormattedPlan(t.pricing.essential.name))}
-                className="w-full py-3 rounded-xl border-2 border-brand-blue text-brand-blue font-bold hover:bg-brand-blue hover:text-white transition-colors"
-                title={`${t.pricing.essential.name} Pricing`}
-              >
-                {frequency === 'custom' ? t.pricing.contact_btn : t.pricing.btn}
-              </button>
-            </div>
-
-            {/* Care Plus */}
-            <div className="bg-white p-8 rounded-2xl shadow-xl border-2 border-brand-blue relative transform md:-translate-y-4 hover:shadow-2xl hover:md:-translate-y-6 transition-all duration-300">
-              <div className="absolute top-0 left-0 bg-brand-blue text-white text-xs font-bold px-3 py-1 rounded-br-xl rounded-tl-lg">
-                {t.pricing.care.popular}
-              </div>
-              {getDiscountBadge(frequency) && (
-                <div className="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-bl-xl rounded-tr-lg">
-                  {getDiscountBadge(frequency)}
-                </div>
-              )}
-              <h3 className="text-xl font-bold text-gray-900 text-center">{t.pricing.care.name}</h3>
-              <div className="text-4xl font-extrabold text-brand-blue my-4 text-center">
-                 {calculateStandardPrice(15, frequency)}
-              </div>
-              <ul className="space-y-3 mb-8">
-                {t.pricing.care.features.map((f: string, i: number) => (
-                  <li key={i} className="flex items-center gap-2 text-gray-600">
-                    <Check className="w-5 h-5 text-brand-green" /> {f}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="mb-6 space-y-4">
-                <div>
-                   <label className="block text-sm font-medium text-center text-gray-700 mb-2">{t.pricing.cats_label}</label>
-                   <div className="flex items-center justify-between w-full bg-gray-50 border border-gray-200 text-gray-700 py-3 px-4 rounded-xl">
-                     <button
-                       onClick={() => setNumCats(Math.max(1, numCats - 1))}
-                       className={`p-1 rounded-full text-brand-blue hover:bg-white transition-colors ${numCats <= 1 ? 'invisible' : ''}`}
-                       disabled={numCats <= 1}
-                     >
-                       <Minus size={20} />
-                     </button>
-                     <span className="font-medium text-lg w-12 text-center">{numCats}</span>
-                     <button
-                       onClick={() => setNumCats(numCats + 1)}
-                       className="p-1 rounded-full text-brand-blue hover:bg-white transition-colors"
-                     >
-                       <Plus size={20} />
-                     </button>
-                   </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-center text-gray-700 mb-2">{t.pricing.frequency_label}</label>
-                  <div className="relative">
-                    <select
-                      value={frequency}
-                      onChange={(e) => setFrequency(e.target.value === 'custom' ? 'custom' : Number(e.target.value))}
-                      className="w-full appearance-none bg-gray-50 border border-gray-200 text-center text-gray-700 py-3 px-4 pr-8 rounded-xl leading-tight focus:outline-none focus:bg-white focus:border-brand-blue"
-                    >
-                      {[1, 2, 3, 4, 5, 6, 7].map(num => (
-                        <option key={num} value={num}>
-                          {num} {lang === 'en' ? (num === 1 ? 'Time' : 'Times') : t.pricing.times_unit}{getDiscountBadge(num) ? ` (${getDiscountBadge(num)})` : ''}
-                        </option>
-                      ))}
-                      <option value="custom">{t.pricing.custom}</option>
-                    </select>
-                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                      <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <button
-                 onClick={() => handleBookClick(getFormattedPlan(t.pricing.care.name))}
-                className="w-full py-3 rounded-xl bg-brand-blue text-white font-bold hover:bg-cyan-600 transition-colors shadow-lg"
-                 title={`${t.pricing.care.name} Pricing`}
-              >
-                {frequency === 'custom' ? t.pricing.contact_btn : t.pricing.btn}
-              </button>
-            </div>
-
-            {/* Ultimate */}
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 relative">
-              {getDiscountBadge(frequency) && (
-                <div className="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-bl-xl rounded-tr-lg">
-                  {getDiscountBadge(frequency)}
-                </div>
-              )}
-              <h3 className="text-xl font-bold text-gray-900 text-center">{t.pricing.ultimate.name}</h3>
-              <div className="text-4xl font-extrabold text-brand-blue my-4 text-center">
-                {calculateStandardPrice(20, frequency)}
-              </div>
-              <ul className="space-y-3 mb-8">
-                {t.pricing.ultimate.features.map((f: string, i: number) => (
-                  <li key={i} className="flex items-center gap-2 text-gray-600">
-                    <Check className="w-5 h-5 text-brand-green" /> {f}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="mb-6 space-y-4">
-                 <div>
-                   <label className="block text-sm font-medium text-center text-gray-700 mb-2">{t.pricing.cats_label}</label>
-                   <div className="flex items-center justify-between w-full bg-gray-50 border border-gray-200 text-gray-700 py-3 px-4 rounded-xl">
-                     <button
-                       onClick={() => setNumCats(Math.max(1, numCats - 1))}
-                       className={`p-1 rounded-full text-brand-blue hover:bg-white transition-colors ${numCats <= 1 ? 'invisible' : ''}`}
-                       disabled={numCats <= 1}
-                     >
-                       <Minus size={20} />
-                     </button>
-                     <span className="font-medium text-lg w-12 text-center">{numCats}</span>
-                     <button
-                       onClick={() => setNumCats(numCats + 1)}
-                       className="p-1 rounded-full text-brand-blue hover:bg-white transition-colors"
-                     >
-                       <Plus size={20} />
-                     </button>
-                   </div>
-                </div>
-
-                 <div>
-                   <label className="block text-sm font-medium text-center text-gray-700 mb-2">{t.pricing.frequency_label}</label>
-                   <div className="relative">
-                    <select
-                      value={frequency}
-                      onChange={(e) => setFrequency(e.target.value === 'custom' ? 'custom' : Number(e.target.value))}
-                      className="w-full appearance-none bg-gray-50 border border-gray-200 text-center text-gray-700 py-3 px-4 pr-8 rounded-xl leading-tight focus:outline-none focus:bg-white focus:border-brand-blue"
-                    >
-                      {[1, 2, 3, 4, 5, 6, 7].map(num => (
-                        <option key={num} value={num}>
-                          {num} {lang === 'en' ? (num === 1 ? 'Time' : 'Times') : t.pricing.times_unit}{getDiscountBadge(num) ? ` (${getDiscountBadge(num)})` : ''}
-                        </option>
-                      ))}
-                      <option value="custom">{t.pricing.custom}</option>
-                    </select>
-                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                      <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <button
-                 onClick={() => handleBookClick(getFormattedPlan(t.pricing.ultimate.name))}
-                className="w-full py-3 rounded-xl border-2 border-brand-blue text-brand-blue font-bold hover:bg-brand-blue hover:text-white transition-colors"
-                 title={`${t.pricing.ultimate.name} Pricing`}
-              >
-                {frequency === 'custom' ? t.pricing.contact_btn : t.pricing.btn}
-              </button>
-            </div>
+            <PricingCard
+              planKey="essential"
+              lang={lang}
+              t={t}
+              numCats={numCats}
+              onNumCatsChange={setNumCats}
+              frequency={frequency}
+              onFrequencyChange={setFrequency}
+              onChoosePlan={handleBookClick}
+            />
+            <PricingCard
+              planKey="care"
+              lang={lang}
+              t={t}
+              numCats={numCats}
+              onNumCatsChange={setNumCats}
+              frequency={frequency}
+              onFrequencyChange={setFrequency}
+              onChoosePlan={handleBookClick}
+              popular
+            />
+            <PricingCard
+              planKey="ultimate"
+              lang={lang}
+              t={t}
+              numCats={numCats}
+              onNumCatsChange={setNumCats}
+              frequency={frequency}
+              onFrequencyChange={setFrequency}
+              onChoosePlan={handleBookClick}
+            />
           </div>
         </div>
       </section>
@@ -685,6 +452,17 @@ function HomeContent() {
             <p className="text-xl text-gray-600">{t.contact_form.subhead}</p>
           </div>
           <form onSubmit={handleEnquirySubmit} className="bg-gray-50 p-8 rounded-2xl shadow-sm border border-gray-100">
+            {/* Honeypot field: hidden from real users, but a plausible target for bot autofill */}
+            <input
+              type="text"
+              name="website"
+              value={enquiryWebsite}
+              onChange={(e) => setEnquiryWebsite(e.target.value)}
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              className="absolute -left-[9999px] top-auto w-px h-px overflow-hidden"
+            />
             <div className="grid md:grid-cols-2 gap-6 mb-6">
               <div>
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="enquiry-name">

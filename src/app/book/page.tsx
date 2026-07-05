@@ -4,6 +4,16 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { ShieldCheck, MapPin, User, Mail, Phone, Calendar, Check, ArrowLeft, ArrowRight, Loader2, Minus, Plus } from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
+import { CONTENT as SiteContent } from '@/content';
+import {
+  PlanKey,
+  PLAN_KEYS,
+  PLAN_BASE_PRICE,
+  calculateWeeklyPrice,
+  formatAmount,
+  getDiscountLabel,
+  isPlanKey,
+} from '@/lib/pricing';
 
 const CONTENT = {
   en: {
@@ -22,11 +32,6 @@ const CONTENT = {
       total: 'Weekly Total',
       priceQuote: 'Quote (Contact Us)',
       planLabel: 'Selected Package',
-      plans: {
-        essential: 'Essential ($10)',
-        care: 'Care Plus ($15)',
-        ultimate: 'Ultimate ($20)',
-      }
     },
     options: {
       morning: 'Morning (8am - 12pm)',
@@ -73,11 +78,6 @@ const CONTENT = {
       total: '总计 (周)',
       priceQuote: '联系定制',
       planLabel: '已选方案',
-      plans: {
-        essential: '基础版 ($10)',
-        care: '优享版 ($15)',
-        ultimate: '尊享版 ($20)',
-      }
     },
     options: {
       morning: '上午 (8am - 12pm)',
@@ -119,17 +119,23 @@ function BookingContent() {
   const [errors, setErrors] = useState<Record<string, boolean>>({});
   const [countdown, setCountdown] = useState(10);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
-  
+  const [website, setWebsite] = useState('');
+  const [formRenderedAt, setFormRenderedAt] = useState(0);
+
+  useEffect(() => {
+    setFormRenderedAt(Date.now());
+  }, []);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
     address: '',
     numCats: 1,
-    frequency: 1 as number | string,
+    frequency: 1 as number | 'custom',
     timeOfDay: 'morning',
     notes: '',
-    plan: 'Essential',
+    planKey: 'essential' as PlanKey,
   });
 
   const searchParams = useSearchParams();
@@ -149,7 +155,7 @@ function BookingContent() {
         ...prev,
         numCats: cats ? parseInt(cats) : prev.numCats,
         frequency: freq && freq !== 'custom' ? parseInt(freq) : (freq === 'custom' ? 'custom' : prev.frequency),
-        plan: plan || prev.plan,
+        planKey: isPlanKey(plan) ? plan : prev.planKey,
       }));
     }
   }, [searchParams]);
@@ -166,29 +172,12 @@ function BookingContent() {
     return () => clearInterval(timer);
   }, [status, countdown, router, lang]);
 
-  const getDiscountBadge = (freq: number) => {
-    if (freq >= 4 && freq <= 5) return '5% OFF';
-    if (freq >= 6) return '10% OFF';
-    return null;
-  };
+  const getDiscountBadge = (freq: number | 'custom') => getDiscountLabel(freq, lang);
 
   const calculatePrice = () => {
-    if (formData.frequency === 'custom') return t.form.priceQuote;
-
-    let basePricePerVisit = 10;
-    if (formData.plan.includes('Care Plus') || formData.plan.includes('优享版')) basePricePerVisit = 15;
-    if (formData.plan.includes('Ultimate') || formData.plan.includes('尊享版')) basePricePerVisit = 20;
-
-    const extraCatFee = (Math.max(1, formData.numCats) - 1) * 5;
-    const subtotalPerVisit = basePricePerVisit + extraCatFee;
-
-    let discountRate = 1.0;
-    const freq = Number(formData.frequency);
-    if (freq >= 4 && freq <= 5) discountRate = 0.95; 
-    if (freq >= 6) discountRate = 0.90;
-
-    const total = (subtotalPerVisit * discountRate * freq).toFixed(2).replace(/\.00$/, '').replace(/(\.\d)0$/, '$1');
-    return `$${total}`;
+    const price = calculateWeeklyPrice(formData.planKey, formData.numCats, formData.frequency);
+    if (price === null) return t.form.priceQuote;
+    return `$${formatAmount(price)}`;
   };
 
   const formatPhoneNumber = (value: string) => {
@@ -203,6 +192,12 @@ function BookingContent() {
   };
 
   const t = CONTENT[lang];
+
+  const selectedPlanLabel = (() => {
+    const name = SiteContent[lang].pricing[formData.planKey].name;
+    const discount = getDiscountLabel(formData.frequency, lang);
+    return discount ? `${name} (${discount})` : name;
+  })();
 
   const validateStep1 = () => {
     const newErrors: Record<string, boolean> = {};
@@ -249,10 +244,12 @@ function BookingContent() {
           phone: formData.phone,
           email: formData.email,
           address: formData.address,
-          plan_name: formData.plan,
+          plan_name: selectedPlanLabel,
           num_cats: formData.numCats,
           frequency: formData.frequency,
           language: lang === 'en' ? 'English' : 'Chinese',
+          website,
+          formRenderedAt,
         }),
       });
 
@@ -339,6 +336,17 @@ function BookingContent() {
         {/* Form Container */}
         <div className="bg-gray-50 p-8 rounded-3xl shadow-sm border border-gray-100">
           <form onSubmit={handleSubmit}>
+            {/* Honeypot field: hidden from real users, but a plausible target for bot autofill */}
+            <input
+              type="text"
+              name="website"
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              className="absolute -left-[9999px] top-auto w-px h-px overflow-hidden"
+            />
             {step === 1 && (
               <div className="space-y-6 animate-in slide-in-from-right duration-300">
                 <div className="space-y-4">
@@ -429,27 +437,23 @@ function BookingContent() {
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-3">{t.form.planLabel}</label>
                   <div className="grid grid-cols-3 gap-3">
-                    {Object.entries(t.form.plans).map(([key, label]) => {
-                      const baseName = (label as string).split(' (')[0];
-                      const isActive = formData.plan.includes(baseName);
+                    {PLAN_KEYS.map((key) => {
+                      const name = SiteContent[lang].pricing[key].name;
+                      const isActive = formData.planKey === key;
                       return (
                         <button
                           key={key}
                           type="button"
-                          onClick={() => {
-                            const discount = getDiscountBadge(Number(formData.frequency));
-                            const discountStr = discount ? ` (${discount})` : '';
-                            setFormData({ ...formData, plan: `${baseName}${discountStr}` });
-                          }}
+                          onClick={() => setFormData({ ...formData, planKey: key })}
                           className={`flex flex-col items-center justify-center py-3 px-2 rounded-xl border-2 transition-all h-[72px] ${
                             isActive
-                              ? 'border-brand-blue bg-blue-50 text-brand-blue shadow-sm' 
+                              ? 'border-brand-blue bg-blue-50 text-brand-blue shadow-sm'
                               : 'border-white bg-white text-gray-400 hover:border-gray-200'
                           }`}
                         >
-                          <span className={`block font-bold mb-0.5 ${isActive ? 'text-sm' : 'text-xs'}`}>{baseName}</span>
+                          <span className={`block font-bold mb-0.5 ${isActive ? 'text-sm' : 'text-xs'}`}>{name}</span>
                           <span className={`${isActive ? 'text-brand-blue/70 text-xs' : 'text-gray-300 text-[10px]'} font-medium`}>
-                            {key === 'essential' ? `$10/${lang === 'en' ? 'visit' : '次'}` : key === 'care' ? `$15/${lang === 'en' ? 'visit' : '次'}` : `$20/${lang === 'en' ? 'visit' : '次'}`}
+                            ${PLAN_BASE_PRICE[key]}/{lang === 'en' ? 'visit' : '次'}
                           </span>
                         </button>
                       );
@@ -541,7 +545,7 @@ function BookingContent() {
                 <div className="bg-white p-6 rounded-2xl border border-gray-200 space-y-4">
                   <div className="flex justify-between pb-4 border-b border-gray-100">
                     <span className="text-gray-500">{t.form.planLabel}</span>
-                    <span className="font-bold text-right max-w-[200px]">{formData.plan}</span>
+                    <span className="font-bold text-right max-w-[200px]">{selectedPlanLabel}</span>
                   </div>
                   <div className="flex justify-between pb-4 border-b border-gray-100">
                     <span className="text-gray-500">{t.form.name}</span>

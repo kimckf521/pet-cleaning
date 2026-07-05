@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { checkRateLimit, getClientIp } from '@/lib/rate-limit';
 
 export async function POST(request: NextRequest) {
   if (!process.env.RESEND_API_KEY || !process.env.RESEND_FROM_EMAIL || !process.env.RESEND_TO_EMAIL) {
@@ -14,7 +15,32 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { customer_name, email, message, language } = body;
+    const { customer_name, email, message, language, website, formRenderedAt } = body;
+
+    // --- Anti-spam checks (additive, before any email is sent) ---
+
+    // 1. Honeypot: a hidden field a bot autofill script would plausibly fill.
+    if (typeof website === 'string' && website.trim() !== '') {
+      console.warn('[antispam] honeypot triggered (send-enquiry)');
+      return NextResponse.json({ success: true }, { status: 200 });
+    }
+
+    // 2. Time-trap: real humans can't fill a multi-field form in under 3s.
+    if (typeof formRenderedAt === 'number' && Date.now() - formRenderedAt < 3000) {
+      console.warn('[antispam] submitted too fast (send-enquiry)');
+      return NextResponse.json({ success: true }, { status: 200 });
+    }
+
+    // 3. Best-effort per-IP rate limit (in-memory, not reliable across
+    // cold starts / multiple regions, acceptable given zero-infra constraint).
+    const clientIp = getClientIp(request);
+    if (!checkRateLimit(clientIp)) {
+      console.warn('[antispam] rate limit exceeded (send-enquiry)', clientIp);
+      return NextResponse.json(
+        { success: false, error: 'Too many requests. Please try again later.' },
+        { status: 429 }
+      );
+    }
 
     // Create admin notification email (Chinese only)
     const adminEmailText = `
