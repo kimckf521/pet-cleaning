@@ -7,10 +7,12 @@ export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
 export default async function Image() {
-  const illustrationFile = await readFile(
-    join(process.cwd(), 'public', 'og-illustration.jpg')
-  );
+  const [illustrationFile, logoFile] = await Promise.all([
+    readFile(join(process.cwd(), 'public', 'og-illustration.jpg')),
+    readFile(join(process.cwd(), 'public', 'logo.png')),
+  ]);
   const illustrationSrc = `data:image/jpeg;base64,${illustrationFile.toString('base64')}`;
+  const logoSrc = `data:image/png;base64,${logoFile.toString('base64')}`;
 
   return new ImageResponse(
     (
@@ -54,10 +56,16 @@ export default async function Image() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: 36,
+                padding: 10,
               }}
             >
-              🐾
+              <img
+                src={logoSrc}
+                alt=""
+                width={52}
+                height={52}
+                style={{ width: 52, height: 52, objectFit: 'contain' }}
+              />
             </div>
             <div style={{ fontSize: 52, fontWeight: 900, letterSpacing: -1.5 }}>
               ScooPo
