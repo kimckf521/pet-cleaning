@@ -9,13 +9,14 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import PricingCard from '@/components/PricingCard';
 import { PlanKey } from '@/lib/pricing';
+import { SERVICE_AREA_FULL_EN, SERVICE_AREA_FULL_CN } from '@/lib/constants';
 
 const SITE_URL = 'https://www.scooposervice.com';
 
 const FAQS_EN = [
   {
     q: 'Which areas do you service in Melbourne?',
-    a: 'We currently serve Box Hill, Blackburn and the surrounding suburbs within about 15 km of Box Hill. If you\'re unsure whether we cover your address, send us a message and we\'ll confirm same-day.',
+    a: `We currently serve ${SERVICE_AREA_FULL_EN} and the surrounding suburbs within about 15 km of Box Hill. If you're unsure whether we cover your address, send us a message and we'll confirm same-day.`,
   },
   {
     q: 'How often do you visit?',
@@ -46,7 +47,7 @@ const FAQS_EN = [
 const FAQS_CN = [
   {
     q: '你们服务墨尔本的哪些区域？',
-    a: '我们目前服务 Box Hill、Blackburn 以及 Box Hill 周边约 15 公里范围内的郊区。如果不确定您的地址是否在范围内，请发消息给我们，我们会当天确认。',
+    a: `我们目前服务 ${SERVICE_AREA_FULL_CN} 以及 Box Hill 周边约 15 公里范围内的郊区。如果不确定您的地址是否在范围内，请发消息给我们，我们会当天确认。`,
   },
   {
     q: '可以多频繁上门？',

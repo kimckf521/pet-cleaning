@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { checkRateLimit, getClientIp } from '@/lib/rate-limit';
+import { SERVICE_AREA_SHORT_EN, SERVICE_AREA_SHORT_CN } from '@/lib/constants';
 
 export async function POST(request: NextRequest) {
   if (!process.env.RESEND_API_KEY || !process.env.RESEND_FROM_EMAIL || !process.env.RESEND_TO_EMAIL) {
@@ -100,7 +101,7 @@ Check out our service plans and see why Melbourne cat owners love ScooPo! We sco
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ScooPo Pet Cleaning
-Serving Box Hill & Blackburn Area
+Serving ${SERVICE_AREA_SHORT_EN}
 © 2026 ScooPo. All rights reserved.
     ` : `
 🐾 ScooPo
@@ -135,7 +136,7 @@ Serving Box Hill & Blackburn Area
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ScooPo 宠物清洁
-服务区域：Box Hill 和 Blackburn
+服务区域：${SERVICE_AREA_SHORT_CN}
 © 2026 ScooPo. 保留所有权利。
     `;
 

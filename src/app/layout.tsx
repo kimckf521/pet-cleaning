@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google';
 import Script from 'next/script';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { SITE_URL } from '@/lib/constants';
+import { SITE_URL, SERVICE_AREAS, SERVICE_AREA_FULL_EN } from '@/lib/constants';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -20,15 +20,13 @@ export const metadata: Metadata = {
     default: 'Pet Waste Removal & Cat Litter Cleaning Melbourne | ScooPo',
     template: '%s | ScooPo',
   },
-  description:
-    'Pet waste removal & cat litter cleaning in Melbourne. Scoop, sanitize, deodorize & vacuum from $10/visit. Serving Box Hill, Blackburn & surrounds.',
+  description: `Pet waste removal & cat litter cleaning in Melbourne. Scoop, sanitize, deodorize & vacuum from $10/visit. Serving ${SERVICE_AREA_FULL_EN}.`,
   keywords: [
     'pet waste removal Melbourne',
     'cat litter cleaning Melbourne',
     'cat litter box cleaning service',
     'pet poop scooping Melbourne',
-    'pet cleaning service Box Hill',
-    'pet cleaning service Blackburn',
+    ...SERVICE_AREAS.map((s) => `pet cleaning service ${s.name}`),
     'cat waste removal',
     'pet hygiene service',
     'ScooPo',
@@ -91,8 +89,7 @@ const localBusinessJsonLd = {
   '@type': 'LocalBusiness',
   '@id': `${SITE_URL}/#localbusiness`,
   name: 'ScooPo',
-  description:
-    'Professional pet waste removal, cat litter cleaning, sanitization and vacuuming service in Melbourne. Serving Box Hill, Blackburn and surrounding suburbs.',
+  description: `Professional pet waste removal, cat litter cleaning, sanitization and vacuuming service in Melbourne. Serving ${SERVICE_AREA_FULL_EN} and surrounding suburbs.`,
   url: SITE_URL,
   logo: `${SITE_URL}/logo.png`,
   image: `${SITE_URL}/opengraph-image`,
@@ -102,8 +99,7 @@ const localBusinessJsonLd = {
       name: 'Melbourne',
       containedInPlace: { '@type': 'State', name: 'Victoria' },
     },
-    { '@type': 'AdministrativeArea', name: 'Box Hill' },
-    { '@type': 'AdministrativeArea', name: 'Blackburn' },
+    ...SERVICE_AREAS.map((s) => ({ '@type': 'AdministrativeArea', name: s.name })),
   ],
   serviceArea: {
     '@type': 'GeoCircle',

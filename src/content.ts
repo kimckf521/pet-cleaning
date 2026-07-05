@@ -1,3 +1,5 @@
+import { SERVICE_AREA_SHORT_EN, SERVICE_AREA_SHORT_CN } from '@/lib/constants';
+
 export const CONTENT = {
   en: {
     nav: {
@@ -30,7 +32,7 @@ export const CONTENT = {
       contact_btn: 'Contact for Quote',
     },
     footer: {
-      contact: 'Serving Box Hill & Blackburn Area',
+      contact: `Serving ${SERVICE_AREA_SHORT_EN}`,
       rights: '© 2026 ScooPo. All rights reserved.',
       privacy: 'Privacy Policy',
       terms: 'Terms of Service'
@@ -140,7 +142,7 @@ export const CONTENT = {
       contact_btn: '联系定制',
     },
     footer: {
-      contact: '服务区域：Box Hill & Blackburn',
+      contact: `服务区域：${SERVICE_AREA_SHORT_CN}`,
       rights: '© 2026 ScooPo. 保留所有权利。',
       privacy: '隐私政策',
       terms: '服务条款'

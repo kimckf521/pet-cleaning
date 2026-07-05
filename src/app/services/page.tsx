@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { CONTENT } from '@/content';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { SITE_URL } from '@/lib/constants';
+import { SITE_URL, SERVICE_AREAS } from '@/lib/constants';
 
 const breadcrumbJsonLd = {
   '@context': 'https://schema.org',
@@ -26,8 +26,7 @@ const serviceJsonLd = {
   provider: { '@id': `${SITE_URL}/#localbusiness` },
   areaServed: [
     { '@type': 'City', name: 'Melbourne' },
-    { '@type': 'AdministrativeArea', name: 'Box Hill' },
-    { '@type': 'AdministrativeArea', name: 'Blackburn' },
+    ...SERVICE_AREAS.map((s) => ({ '@type': 'AdministrativeArea', name: s.name })),
   ],
   description:
     'Professional pet waste removal, cat litter cleaning, sanitization, deodorizing and vacuuming services in Melbourne.',

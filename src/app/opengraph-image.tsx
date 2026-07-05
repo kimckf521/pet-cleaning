@@ -1,6 +1,7 @@
 import { ImageResponse } from 'next/og';
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { SERVICE_AREA_SHORT_EN } from '@/lib/constants';
 
 export const alt = 'ScooPo – Pet Waste Removal & Cat Litter Cleaning in Melbourne';
 export const size = { width: 1200, height: 630 };
@@ -89,7 +90,7 @@ export default async function Image() {
               opacity: 0.95,
             }}
           >
-            Melbourne · Box Hill · Blackburn
+            {SERVICE_AREA_SHORT_EN}
           </div>
           <div
             style={{

@@ -1,9 +1,9 @@
 import { Metadata } from 'next';
+import { SERVICE_AREA_FULL_EN } from '@/lib/constants';
 
 export const metadata: Metadata = {
   title: 'About Us – Our Mission & Values',
-  description:
-    "Learn about ScooPo – Melbourne's trusted pet waste removal and cat litter cleaning service. Eco-friendly, health-focused, and reliable scoopers serving Box Hill & Blackburn.",
+  description: `Learn about ScooPo – Melbourne's trusted pet waste removal and cat litter cleaning service. Eco-friendly, health-focused, and reliable scoopers serving ${SERVICE_AREA_FULL_EN}.`,
   alternates: {
     canonical: '/about',
   },

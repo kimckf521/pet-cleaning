@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { SERVICE_AREA_FULL_EN } from '@/lib/constants';
 
 export const metadata: Metadata = {
   title: 'Book Your Service',
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Book ScooPo – Pet Cleaning Service Melbourne',
     description:
-      'Choose your plan and schedule a professional cat litter cleaning visit online. Serving Box Hill & Blackburn.',
+      `Choose your plan and schedule a professional cat litter cleaning visit online. Serving ${SERVICE_AREA_FULL_EN}.`,
     url: '/book',
   },
   robots: {
