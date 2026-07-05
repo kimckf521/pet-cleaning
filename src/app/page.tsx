@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, Suspense } from 'react';
-import { Trash2, Wind, ShieldCheck, Check, X, Plus, Loader2, MapPin, ArrowRight } from 'lucide-react';
+import { Trash2, Wind, ShieldCheck, Check, X, Plus, Loader2, MapPin, ArrowRight, AlertCircle } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { CONTENT } from '@/content';
@@ -140,8 +140,9 @@ function HomeContent() {
   const [formData, setFormData] = useState({ name: '', phone: '', email: '', address: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   
-  const [enquiryData, setEnquiryData] = useState({ name: '', email: '', message: '' });
+  const [enquiryData, setEnquiryData] = useState({ name: '', email: '', phone: '', message: '' });
   const [enquiryStatus, setEnquiryStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [enquiryErrors, setEnquiryErrors] = useState<Record<string, boolean>>({});
   const [enquiryWebsite, setEnquiryWebsite] = useState('');
   const [enquiryFormRenderedAt, setEnquiryFormRenderedAt] = useState(0);
 
@@ -250,8 +251,18 @@ function HomeContent() {
     }
   };
 
+  const validateEnquiry = () => {
+    const newErrors: Record<string, boolean> = {};
+    if (!enquiryData.name) newErrors.name = true;
+    if (!enquiryData.email) newErrors.email = true;
+    if (!enquiryData.message) newErrors.message = true;
+    setEnquiryErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleEnquirySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!validateEnquiry()) return;
     setEnquiryStatus('loading');
 
     try {
@@ -261,6 +272,7 @@ function HomeContent() {
         body: JSON.stringify({
           customer_name: enquiryData.name,
           email: enquiryData.email,
+          phone: enquiryData.phone,
           message: enquiryData.message,
           language: lang === 'en' ? 'English' : 'Chinese',
           website: enquiryWebsite,
@@ -272,7 +284,8 @@ function HomeContent() {
         setEnquiryStatus('success');
         setTimeout(() => {
           setEnquiryStatus('idle');
-          setEnquiryData({ name: '', email: '', message: '' });
+          setEnquiryData({ name: '', email: '', phone: '', message: '' });
+          setEnquiryErrors({});
         }, 3000);
       } else {
         setEnquiryStatus('error');
@@ -466,53 +479,110 @@ function HomeContent() {
             />
             <div className="grid md:grid-cols-2 gap-6 mb-6">
               <div>
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="enquiry-name">
-                  {t.contact_form.name}
-                </label>
+                <div className="flex justify-between items-center mb-2">
+                  <label className="block text-gray-700 text-sm font-bold" htmlFor="enquiry-name">
+                    {t.contact_form.name}
+                  </label>
+                  {enquiryErrors.name && (
+                    <span className="text-red-500 text-[10px] font-bold uppercase">{t.contact_form.required}</span>
+                  )}
+                </div>
                 <input
                   type="text"
                   id="enquiry-name"
                   value={enquiryData.name}
-                  onChange={(e) => setEnquiryData({ ...enquiryData, name: e.target.value })}
-                  className="w-full bg-white border border-gray-200 text-gray-700 py-3 px-4 rounded-xl leading-tight focus:outline-none focus:border-brand-blue transition-colors"
-                  required
+                  onChange={(e) => {
+                    setEnquiryData({ ...enquiryData, name: e.target.value });
+                    if (enquiryErrors.name) setEnquiryErrors({ ...enquiryErrors, name: false });
+                  }}
+                  className={`w-full border py-3 px-4 rounded-xl leading-tight focus:outline-none transition-colors ${
+                    enquiryErrors.name ? 'border-red-300 bg-red-50' : 'bg-white border-gray-200 focus:border-brand-blue'
+                  }`}
                 />
               </div>
               <div>
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="enquiry-email">
-                  {t.contact_form.email}
-                </label>
+                <div className="flex justify-between items-center mb-2">
+                  <label className="block text-gray-700 text-sm font-bold" htmlFor="enquiry-email">
+                    {t.contact_form.email}
+                  </label>
+                  {enquiryErrors.email && (
+                    <span className="text-red-500 text-[10px] font-bold uppercase">{t.contact_form.required}</span>
+                  )}
+                </div>
                 <input
                   type="email"
                   id="enquiry-email"
                   value={enquiryData.email}
-                  onChange={(e) => setEnquiryData({ ...enquiryData, email: e.target.value })}
-                  className="w-full bg-white border border-gray-200 text-gray-700 py-3 px-4 rounded-xl leading-tight focus:outline-none focus:border-brand-blue transition-colors"
-                  required
+                  onChange={(e) => {
+                    setEnquiryData({ ...enquiryData, email: e.target.value });
+                    if (enquiryErrors.email) setEnquiryErrors({ ...enquiryErrors, email: false });
+                  }}
+                  className={`w-full border py-3 px-4 rounded-xl leading-tight focus:outline-none transition-colors ${
+                    enquiryErrors.email ? 'border-red-300 bg-red-50' : 'bg-white border-gray-200 focus:border-brand-blue'
+                  }`}
                 />
               </div>
             </div>
             <div className="mb-6">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="enquiry-message">
-                {t.contact_form.message}
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="enquiry-phone">
+                {t.contact_form.phone}
               </label>
+              <input
+                type="tel"
+                id="enquiry-phone"
+                value={enquiryData.phone}
+                onChange={(e) => setEnquiryData({ ...enquiryData, phone: e.target.value })}
+                className="w-full bg-white border border-gray-200 text-gray-700 py-3 px-4 rounded-xl leading-tight focus:outline-none focus:border-brand-blue transition-colors"
+              />
+            </div>
+            <div className="mb-6">
+              <div className="flex justify-between items-center mb-2">
+                <label className="block text-gray-700 text-sm font-bold" htmlFor="enquiry-message">
+                  {t.contact_form.message}
+                </label>
+                {enquiryErrors.message && (
+                  <span className="text-red-500 text-[10px] font-bold uppercase">{t.contact_form.required}</span>
+                )}
+              </div>
               <textarea
                 id="enquiry-message"
                 value={enquiryData.message}
-                onChange={(e) => setEnquiryData({ ...enquiryData, message: e.target.value })}
-                className="w-full bg-white border border-gray-200 text-gray-700 py-3 px-4 rounded-xl leading-tight focus:outline-none focus:border-brand-blue transition-colors h-32 resize-none"
-                required
+                onChange={(e) => {
+                  setEnquiryData({ ...enquiryData, message: e.target.value });
+                  if (enquiryErrors.message) setEnquiryErrors({ ...enquiryErrors, message: false });
+                }}
+                className={`w-full border py-3 px-4 rounded-xl leading-tight focus:outline-none transition-colors h-32 resize-none ${
+                  enquiryErrors.message ? 'border-red-300 bg-red-50' : 'bg-white border-gray-200 focus:border-brand-blue'
+                }`}
               />
             </div>
+            {enquiryStatus === 'error' && (
+              <div className="flex items-center justify-center gap-2 mb-4 text-red-500 font-semibold text-sm">
+                <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                {t.contact_form.error}
+              </div>
+            )}
             <div className="text-center">
               <button
                 type="submit"
                 disabled={enquiryStatus === 'loading' || enquiryStatus === 'success'}
-                className={`w-full md:w-auto px-8 py-3 rounded-xl font-bold text-white transition-all transform hover:-translate-y-1 ${
+                className={`w-full md:w-auto px-8 py-3 rounded-xl font-bold text-white transition-all transform hover:-translate-y-1 inline-flex items-center justify-center gap-2 disabled:hover:translate-y-0 ${
                   enquiryStatus === 'success' ? 'bg-green-500 hover:bg-green-600' : 'bg-brand-blue hover:bg-cyan-600 shadow-lg hover:shadow-xl'
                 }`}
               >
-                {enquiryStatus === 'loading' ? t.contact_form.loading : enquiryStatus === 'success' ? t.contact_form.success : t.contact_form.submit}
+                {enquiryStatus === 'loading' ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    {t.contact_form.loading}
+                  </>
+                ) : enquiryStatus === 'success' ? (
+                  <>
+                    <Check className="w-4 h-4" />
+                    {t.contact_form.success}
+                  </>
+                ) : (
+                  t.contact_form.submit
+                )}
               </button>
             </div>
           </form>

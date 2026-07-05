@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { customer_name, email, message, language, website, formRenderedAt } = body;
+    const { customer_name, email, phone, message, language, website, formRenderedAt } = body;
 
     // --- Anti-spam checks (additive, before any email is sent) ---
 
@@ -54,6 +54,7 @@ export async function POST(request: NextRequest) {
 
 姓名：${customer_name}
 邮箱：${email}
+电话：${phone || '未提供'}
 
 留言内容
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
