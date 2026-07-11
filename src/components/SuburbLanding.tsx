@@ -286,7 +286,9 @@ function SuburbContent({ name, slug, postcode, introEn, introCn, nearby, offersD
             </span>
             <h2 className="text-3xl font-bold text-ink mb-4 flex items-center justify-center gap-3">
               <Dog className="w-8 h-8 text-brand-green" />
-              {t.dogService.name}
+              {lang === 'en'
+                ? `Dog Waste Removal & Pooper Scooper in ${name}`
+                : `${name} 狗狗粪便清理 · 上门铲屎`}
             </h2>
             <p className="text-lg text-gray-600 mb-8">{t.dogService.description}</p>
             <div className="inline-block border-2 border-brand-green rounded-3xl p-8 bg-white shadow-soft text-left">

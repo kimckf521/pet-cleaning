@@ -1,16 +1,28 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Pet Waste Removal & Cat Litter Cleaning – Blackburn',
+  title: 'Blackburn Dog Waste Removal & Cat Litter Cleaning',
   description:
-    "Professional pet waste removal and cat litter cleaning in Blackburn, Melbourne. Scoop, vacuum and sanitize from $28/visit. Weekly visits available, no contracts.",
+    'Dog waste removal & cat litter cleaning in Blackburn. We scoop, vacuum, sanitize & deodorize from $28/visit. Weekly pooper scooper visits, no contracts.',
+  keywords: [
+    'dog waste removal Blackburn',
+    'dog poo removal Blackburn',
+    'pooper scooper Blackburn',
+    'dog poo pick up Blackburn',
+    'pet waste removal Blackburn',
+    'cat litter cleaning service Blackburn',
+    'litter box cleaning service Blackburn',
+    'cat litter tray cleaning Blackburn',
+    'weekly dog poo removal Blackburn',
+    'backyard dog poo cleaning Blackburn',
+  ],
   alternates: {
     canonical: '/service-areas/blackburn',
   },
   openGraph: {
-    title: 'ScooPo – Pet Cleaning in Blackburn, Melbourne',
+    title: 'ScooPo – Dog Waste Removal & Cat Cleaning, Blackburn',
     description:
-      'Reliable, eco-friendly cat litter cleaning and pet waste removal serving Blackburn residents. From $28/visit.',
+      'Dog waste removal & cat litter cleaning for Blackburn homes. Scoop, vacuum & sanitize from $28/visit.',
     url: '/service-areas/blackburn',
   },
 };

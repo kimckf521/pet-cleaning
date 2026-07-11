@@ -1,16 +1,28 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Pet Waste Removal & Cat Litter Cleaning – Box Hill',
+  title: 'Box Hill Dog Waste Removal & Cat Litter Cleaning',
   description:
-    "Professional pet waste removal and cat litter cleaning in Box Hill, Melbourne. Scoop, vacuum and sanitize from $28/visit. Weekly visits available, no contracts.",
+    'Dog waste removal & cat litter cleaning in Box Hill. We scoop, vacuum, sanitize & deodorize from $28/visit. Weekly pooper scooper visits, no contracts.',
+  keywords: [
+    'dog waste removal Box Hill',
+    'dog poo removal Box Hill',
+    'pooper scooper Box Hill',
+    'dog poo pick up Box Hill',
+    'pet waste removal Box Hill',
+    'cat litter cleaning service Box Hill',
+    'litter box cleaning service Box Hill',
+    'cat litter tray cleaning Box Hill',
+    'weekly dog poo removal Box Hill',
+    'backyard dog poo cleaning Box Hill',
+  ],
   alternates: {
     canonical: '/service-areas/box-hill',
   },
   openGraph: {
-    title: 'ScooPo – Pet Cleaning in Box Hill, Melbourne',
+    title: 'ScooPo – Dog Waste Removal & Cat Cleaning, Box Hill',
     description:
-      'Reliable, eco-friendly cat litter cleaning and pet waste removal serving Box Hill residents. From $28/visit.',
+      'Dog waste removal & cat litter cleaning for Box Hill homes. Scoop, vacuum & sanitize from $28/visit.',
     url: '/service-areas/box-hill',
   },
 };
