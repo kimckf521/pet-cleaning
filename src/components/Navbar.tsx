@@ -26,27 +26,27 @@ export default function Navbar({ lang, setLang, t }: NavbarProps) {
   };
 
   return (
-    <nav aria-label="Main navigation" className="fixed w-full bg-white/90 backdrop-blur-md shadow-sm z-50">
+    <nav aria-label="Main navigation" className="fixed w-full bg-cream/85 backdrop-blur-md border-b border-peach/40 z-50">
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-        <Link href={getLink('/')} className="text-2xl font-bold text-brand-blue flex items-center gap-2">
+        <Link href={getLink('/')} className="text-2xl font-display font-bold text-brand-blue flex items-center gap-2">
           <Image src="/logo.png" alt="ScooPo – Melbourne pet waste removal & cat litter cleaning" width={40} height={40} className="w-10 h-10 object-contain" priority />
           {t.nav.logo}
         </Link>
         <div className="hidden md:flex items-center gap-8 font-medium text-gray-600">
-          <Link href={getLink('/')} className="hover:text-brand-blue transition-colors">{t.nav.home}</Link>
-          <Link href={getLink('/about')} className="hover:text-brand-blue transition-colors">{t.nav.about}</Link>
-          <Link href={getLink('/services')} className="hover:text-brand-blue transition-colors">{t.nav.services}</Link>
+          <Link href={getLink('/')} className="hover:text-coral transition-colors">{t.nav.home}</Link>
+          <Link href={getLink('/about')} className="hover:text-coral transition-colors">{t.nav.about}</Link>
+          <Link href={getLink('/services')} className="hover:text-coral transition-colors">{t.nav.services}</Link>
         </div>
         <div className="flex items-center gap-4">
           <button
             onClick={() => setLang(lang === 'en' ? 'cn' : 'en')}
-            className="w-10 h-10 flex items-center justify-center font-bold text-lg text-brand-blue border-2 border-brand-blue rounded-full hover:bg-brand-blue hover:text-white transition-all underline-none"
+            className="w-10 h-10 flex items-center justify-center font-bold text-lg text-coral border-2 border-coral rounded-full hover:bg-coral hover:text-white transition-all"
           >
             {lang === 'en' ? '中' : 'EN'}
           </button>
           <button
             onClick={handleBookClick}
-            className="bg-brand-blue text-white px-6 py-2 rounded-full font-semibold hover:bg-cyan-600 transition-colors"
+            className="bg-coral text-white px-6 py-2 rounded-full font-semibold shadow-warm hover:bg-coral-600 hover:scale-105 transition-all"
           >
             {t.nav.book}
           </button>

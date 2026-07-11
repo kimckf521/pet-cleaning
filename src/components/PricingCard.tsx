@@ -41,22 +41,22 @@ export default function PricingCard({
     <div
       className={
         popular
-          ? 'bg-white p-8 rounded-2xl shadow-xl border-2 border-brand-blue relative transform md:-translate-y-4 hover:shadow-2xl hover:md:-translate-y-6 transition-all duration-300'
-          : 'bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 relative'
+          ? 'bg-white p-8 rounded-3xl shadow-warm border-2 border-coral relative transform md:-translate-y-4 hover:md:-translate-y-6 transition-all duration-300'
+          : 'bg-white p-8 rounded-3xl shadow-soft border border-peach/50 hover:shadow-warm hover:-translate-y-2 transition-all duration-300 relative'
       }
     >
       {popular && (
-        <div className="absolute top-0 left-0 bg-brand-blue text-white text-xs font-bold px-3 py-1 rounded-br-xl rounded-tl-lg">
+        <div className="absolute top-0 left-0 bg-coral text-white text-xs font-bold px-3 py-1 rounded-br-2xl rounded-tl-3xl">
           {plan.popular}
         </div>
       )}
       {discountBadge && (
-        <div className="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-bl-xl rounded-tr-lg">
+        <div className="absolute top-0 right-0 bg-brand-green text-white text-xs font-bold px-3 py-1 rounded-bl-2xl rounded-tr-3xl">
           {discountBadge}
         </div>
       )}
-      <h3 className="text-xl font-bold text-gray-900 text-center">{plan.name}</h3>
-      <div className="text-4xl font-extrabold text-brand-blue my-4 text-center">{priceDisplay}</div>
+      <h3 className="text-xl font-bold text-center">{plan.name}</h3>
+      <div className="text-4xl font-display font-extrabold text-coral my-4 text-center">{priceDisplay}</div>
       <ul className="space-y-3 mb-8">
         {plan.features.map((f: string, i: number) => (
           <li key={i} className="flex items-center gap-2 text-gray-600">
@@ -70,10 +70,10 @@ export default function PricingCard({
           <label className="block text-sm font-medium text-center text-gray-700 mb-2">
             {t.pricing.cats_label}
           </label>
-          <div className="flex items-center justify-between w-full bg-gray-50 border border-gray-200 text-gray-700 py-3 px-4 rounded-xl">
+          <div className="flex items-center justify-between w-full bg-cream border border-peach/50 text-gray-700 py-3 px-4 rounded-2xl">
             <button
               onClick={() => onNumCatsChange(Math.max(1, numCats - 1))}
-              className={`p-1 rounded-full text-brand-blue hover:bg-white transition-colors ${
+              className={`p-1 rounded-full text-coral hover:bg-cream transition-colors ${
                 numCats <= 1 ? 'invisible' : ''
               }`}
               disabled={numCats <= 1}
@@ -83,7 +83,7 @@ export default function PricingCard({
             <span className="font-medium text-lg w-12 text-center">{numCats}</span>
             <button
               onClick={() => onNumCatsChange(numCats + 1)}
-              className="p-1 rounded-full text-brand-blue hover:bg-white transition-colors"
+              className="p-1 rounded-full text-coral hover:bg-cream transition-colors"
             >
               <Plus size={20} />
             </button>
@@ -98,7 +98,7 @@ export default function PricingCard({
             <select
               value={frequency}
               onChange={(e) => onFrequencyChange(e.target.value === 'custom' ? 'custom' : Number(e.target.value))}
-              className="w-full appearance-none bg-gray-50 border border-gray-200 text-center text-gray-700 py-3 px-4 pr-8 rounded-xl leading-tight focus:outline-none focus:bg-white focus:border-brand-blue"
+              className="w-full appearance-none bg-cream border border-peach/50 text-center text-gray-700 py-3 px-4 pr-8 rounded-2xl leading-tight focus:outline-none focus:bg-white focus:border-coral"
             >
               {[1, 2, 3, 4, 5, 6, 7].map((num) => (
                 <option key={num} value={num}>
@@ -121,8 +121,8 @@ export default function PricingCard({
         onClick={() => onChoosePlan(planKey)}
         className={
           popular
-            ? 'w-full py-3 rounded-xl bg-brand-blue text-white font-bold hover:bg-cyan-600 transition-colors shadow-lg'
-            : 'w-full py-3 rounded-xl border-2 border-brand-blue text-brand-blue font-bold hover:bg-brand-blue hover:text-white transition-colors'
+            ? 'w-full py-3 rounded-full bg-coral text-white font-bold shadow-warm hover:bg-coral-600 hover:scale-105 transition-all'
+            : 'w-full py-3 rounded-full border-2 border-coral text-coral font-bold hover:bg-coral hover:text-white transition-all'
         }
         title={`${plan.name} Pricing`}
       >

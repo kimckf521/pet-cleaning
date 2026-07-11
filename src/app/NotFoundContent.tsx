@@ -13,15 +13,17 @@ export default function NotFoundContent() {
   const getLink = (path: string) => `${path}?lang=${lang}`;
 
   return (
-    <main className="min-h-screen bg-white text-gray-800">
+    <main className="min-h-screen bg-cream text-gray-700">
       <Navbar lang={lang} setLang={setLang} t={t} />
 
-      <div className="flex items-center justify-center px-4 pt-32 pb-16">
-        <div className="max-w-xl text-center space-y-6">
-          <p className="text-sm font-bold tracking-widest uppercase text-brand-blue">
-            {lang === 'en' ? '404 Error' : '404 错误'}
+      <div className="relative flex items-center justify-center px-4 pt-32 pb-16 bg-gradient-to-b from-peach/40 via-coral-50 to-cream overflow-hidden">
+        <span aria-hidden className="pointer-events-none select-none absolute top-28 left-[8%] text-5xl opacity-25 animate-float">🐾</span>
+        <span aria-hidden className="pointer-events-none select-none absolute bottom-16 right-[10%] text-6xl opacity-20 animate-float" style={{ animationDelay: '1.5s' }}>🐾</span>
+        <div className="relative max-w-xl text-center space-y-6">
+          <p className="inline-flex items-center gap-2 bg-white/70 text-coral-700 text-sm font-bold tracking-widest uppercase px-5 py-2 rounded-full shadow-soft">
+            🐾 {lang === 'en' ? '404 Error' : '404 错误'}
           </p>
-          <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 tracking-tight">
+          <h1 className="text-5xl md:text-6xl font-display font-extrabold text-ink tracking-tight">
             {lang === 'en' ? 'Page not found' : '页面未找到'}
           </h1>
           <p className="text-lg text-gray-600">
@@ -32,13 +34,13 @@ export default function NotFoundContent() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
             <Link
               href={getLink('/')}
-              className="bg-brand-blue text-white px-8 py-3 rounded-full font-bold shadow-lg hover:bg-cyan-600 transition-colors"
+              className="bg-coral text-white px-8 py-3 rounded-full font-bold shadow-warm hover:bg-coral-600 hover:scale-105 transition-all"
             >
-              {lang === 'en' ? 'Back to Home' : '返回首页'}
+              {lang === 'en' ? 'Back to Home 🐾' : '返回首页 🐾'}
             </Link>
             <Link
               href={getLink('/services')}
-              className="border-2 border-brand-blue text-brand-blue px-8 py-3 rounded-full font-bold hover:bg-brand-blue hover:text-white transition-colors"
+              className="border-2 border-coral text-coral px-8 py-3 rounded-full font-bold hover:bg-coral hover:text-white transition-colors"
             >
               {lang === 'en' ? 'View Services' : '查看服务'}
             </Link>

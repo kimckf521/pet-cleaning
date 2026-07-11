@@ -28,25 +28,25 @@ function PrivacyContent() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-cream">
       <Navbar lang={lang} setLang={setLang} t={t} />
 
       <div className="pt-32 pb-20 px-4">
-        <div className="max-w-3xl mx-auto bg-white rounded-[40px] shadow-sm border border-gray-100 overflow-hidden">
+        <div className="max-w-3xl mx-auto bg-white rounded-[40px] shadow-soft border border-peach/40 overflow-hidden">
           {/* Header */}
-          <div className="bg-brand-blue/5 p-8 md:p-12 border-b border-gray-100">
-            <Link 
+          <div className="bg-coral-50 p-8 md:p-12 border-b border-peach/40">
+            <Link
               href={getLink('/')}
-              className="inline-flex items-center gap-2 text-brand-blue font-bold mb-6 hover:gap-3 transition-all"
+              className="inline-flex items-center gap-2 text-coral font-bold mb-6 hover:gap-3 transition-all"
             >
               <ChevronLeft size={20} />
               {lang === 'en' ? 'Back to Home' : '点击返回'}
             </Link>
             <div className="flex items-center gap-4 mb-4">
-              <div className="w-12 h-12 bg-brand-blue text-white rounded-2xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-coral text-white rounded-2xl flex items-center justify-center">
                 <Shield size={24} />
               </div>
-              <h1 className="text-3xl md:text-4xl font-bold text-gray-900">{p.title}</h1>
+              <h1 className="text-3xl md:text-4xl font-bold text-ink">{p.title}</h1>
             </div>
             <p className="text-gray-400 italic text-sm">{p.lastUpdated}</p>
           </div>
@@ -57,7 +57,7 @@ function PrivacyContent() {
               <div key={idx} className="space-y-4">
                 <h2 className="text-xl font-bold text-gray-800">{section.title}</h2>
                 {section.content && (
-                  <div className="text-gray-600 leading-relaxed whitespace-pre-line bg-gray-50/50 p-6 rounded-2xl border border-gray-50">
+                  <div className="text-gray-600 leading-relaxed whitespace-pre-line bg-cream p-6 rounded-2xl border border-peach/30">
                     {section.content}
                   </div>
                 )}
@@ -76,7 +76,7 @@ export default function PrivacyPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-brand-blue" />
+        <Loader2 className="w-8 h-8 animate-spin text-coral" />
       </div>
     }>
       <PrivacyContent />

@@ -1,12 +1,18 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter } from 'next/font/google';
+import { Inter, Fredoka } from 'next/font/google';
 import Script from 'next/script';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { SITE_URL, SERVICE_AREAS, SERVICE_AREA_FULL_EN } from '@/lib/constants';
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
+const fredoka = Fredoka({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-fredoka',
+  display: 'swap',
+});
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -20,7 +26,7 @@ export const metadata: Metadata = {
     default: 'Pet Waste Removal & Cat Litter Cleaning Melbourne | ScooPo',
     template: '%s | ScooPo',
   },
-  description: `Pet waste removal & cat litter cleaning in Melbourne. Scoop, sanitize, deodorize & vacuum from $10/visit. Serving ${SERVICE_AREA_FULL_EN}.`,
+  description: `Pet waste removal & cat litter cleaning in Melbourne. Scoop, sanitize, deodorize & vacuum from $28/visit. Serving ${SERVICE_AREA_FULL_EN}.`,
   keywords: [
     'pet waste removal Melbourne',
     'cat litter cleaning Melbourne',
@@ -55,13 +61,13 @@ export const metadata: Metadata = {
     siteName: 'ScooPo',
     title: 'Pet Waste Removal & Cat Litter Cleaning Melbourne | ScooPo',
     description:
-      "Melbourne's only pet cleaning service that scoops, removes waste AND vacuums. Cat litter cleaning, sanitization & deodorizing from $10/visit.",
+      "Melbourne's only pet cleaning service that scoops, removes waste AND vacuums. Cat litter cleaning, sanitization & deodorizing from $28/visit.",
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Pet Waste Removal & Cat Litter Cleaning Melbourne | ScooPo',
     description:
-      "Melbourne's only pet cleaning service that scoops, removes waste AND vacuums. From $10/visit.",
+      "Melbourne's only pet cleaning service that scoops, removes waste AND vacuums. From $28/visit.",
   },
   alternates: {
     canonical: '/',
@@ -91,6 +97,7 @@ const localBusinessJsonLd = {
   name: 'ScooPo',
   description: `Professional pet waste removal, cat litter cleaning, sanitization and vacuuming service in Melbourne. Serving ${SERVICE_AREA_FULL_EN} and surrounding suburbs.`,
   url: SITE_URL,
+  telephone: '+61415840168',
   logo: `${SITE_URL}/logo.png`,
   image: `${SITE_URL}/opengraph-image`,
   areaServed: [
@@ -110,7 +117,7 @@ const localBusinessJsonLd = {
     },
     geoRadius: '15000',
   },
-  priceRange: '$10 - $20 per visit',
+  priceRange: '$28 - $42 per visit',
   currenciesAccepted: 'AUD',
   paymentAccepted: 'Cash, Credit Card, Bank Transfer',
   openingHoursSpecification: [
@@ -139,7 +146,7 @@ const localBusinessJsonLd = {
           provider: { '@id': `${SITE_URL}/#localbusiness` },
           areaServed: 'Melbourne',
         },
-        price: '10.00',
+        price: '28.00',
         priceCurrency: 'AUD',
       },
       {
@@ -150,7 +157,7 @@ const localBusinessJsonLd = {
           provider: { '@id': `${SITE_URL}/#localbusiness` },
           areaServed: 'Melbourne',
         },
-        price: '15.00',
+        price: '35.00',
         priceCurrency: 'AUD',
       },
       {
@@ -161,7 +168,7 @@ const localBusinessJsonLd = {
           provider: { '@id': `${SITE_URL}/#localbusiness` },
           areaServed: 'Melbourne',
         },
-        price: '20.00',
+        price: '42.00',
         priceCurrency: 'AUD',
       },
     ],
@@ -185,7 +192,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${inter.variable} ${fredoka.variable}`}>
       <head>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-E182X95P9E"
@@ -208,7 +215,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
       </head>
-      <body className={inter.className}>
+      <body className="antialiased">
         {children}
         <Analytics />
         <SpeedInsights />

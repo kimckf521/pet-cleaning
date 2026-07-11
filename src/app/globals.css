@@ -1,3 +1,38 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-cream text-gray-700 font-sans antialiased;
+  }
+
+  /* Friendly rounded display font on all headings by default */
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display text-ink;
+  }
+
+  ::selection {
+    background-color: #ffd9b3;
+    color: #2b2420;
+  }
+}
+
+@layer utilities {
+  /* Subtle repeating paw-print texture for section backgrounds */
+  .paw-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cg fill='%23FF6B5C' fill-opacity='0.05'%3E%3Cellipse cx='36' cy='44' rx='11' ry='9'/%3E%3Ccircle cx='23' cy='30' r='4.5'/%3E%3Ccircle cx='36' cy='25' r='5'/%3E%3Ccircle cx='49' cy='30' r='4.5'/%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  /* Organic blob mask for hero imagery / accents */
+  .blob {
+    border-radius: 42% 58% 63% 37% / 41% 44% 56% 59%;
+  }
+}

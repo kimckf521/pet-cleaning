@@ -106,7 +106,7 @@ export default async function Image() {
               fontWeight: 700,
             }}
           >
-            From $10/visit · No contracts
+            From $28/visit · No contracts
           </div>
         </div>
         <div

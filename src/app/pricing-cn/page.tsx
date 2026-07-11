@@ -33,8 +33,8 @@ const breadcrumbJsonLd = {
 const pricingData = [
   {
     name: 'Essential (基础版)',
-    price: '$25',
-    unit: '/周',
+    price: '$28',
+    unit: '/次',
     description: '适合希望保持环境整洁的基本需求。',
     features: [
       '专业猫砂带离清理',
@@ -44,13 +44,13 @@ const pricingData = [
     ],
     cta: '立即预约',
     popular: false,
-    color: 'bg-blue-50',
-    borderColor: 'border-blue-100',
-    iconColor: 'text-blue-600'
+    color: 'bg-cyan-50',
+    borderColor: 'border-cyan-100',
+    iconColor: 'text-brand-blue'
   },
   {
     name: 'Premium (优享版)',
-    price: '$15',
+    price: '$35',
     unit: '/次',
     description: '最受欢迎的选择，提供更全面的关怀。',
     features: [
@@ -61,13 +61,13 @@ const pricingData = [
     ],
     cta: '立即预约',
     popular: true,
-    color: 'bg-brand-blue/5',
-    borderColor: 'border-brand-blue/20',
-    iconColor: 'text-brand-blue'
+    color: 'bg-coral-50',
+    borderColor: 'border-coral/20',
+    iconColor: 'text-coral'
   },
   {
     name: 'Ultimate (尊享版)',
-    price: '$20',
+    price: '$42',
     unit: '/次',
     description: '极致卫生的首选，全方位的托管服务。',
     features: [
@@ -93,7 +93,7 @@ function PricingContent() {
   };
 
   return (
-    <main className="min-h-screen bg-white selection:bg-brand-blue selection:text-white">
+    <main className="min-h-screen bg-cream selection:bg-coral selection:text-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
@@ -103,14 +103,19 @@ function PricingContent() {
       </div>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-16 bg-gradient-to-br from-blue-50 via-white to-green-50/30 overflow-hidden relative">
-        <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-96 h-96 bg-brand-blue/5 rounded-full blur-3xl" />
+      <section className="pt-32 pb-16 bg-gradient-to-br from-peach/40 via-coral-50 to-cream overflow-hidden relative">
+        <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-96 h-96 bg-coral/10 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-96 h-96 bg-brand-green/5 rounded-full blur-3xl" />
-        
+        <span aria-hidden className="print:hidden pointer-events-none select-none absolute top-28 left-[8%] text-5xl opacity-20 animate-float">🐾</span>
+        <span aria-hidden className="print:hidden pointer-events-none select-none absolute bottom-14 right-[10%] text-6xl opacity-20 animate-float" style={{ animationDelay: '1.5s' }}>🐾</span>
+
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 mb-6 tracking-tight leading-tight">
-              简单清晰的<span className="text-brand-blue">收费方案</span>
+            <span className="inline-flex items-center gap-2 bg-white/70 text-coral-700 font-semibold px-5 py-2 rounded-full shadow-soft mb-6">
+              🐾 透明收费，无隐藏费用
+            </span>
+            <h1 className="text-4xl md:text-6xl font-display font-extrabold text-ink mb-6 tracking-tight leading-tight">
+              简单清晰的<span className="text-coral">收费方案</span>
             </h1>
             <p className="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed">
               无隐藏费用，无注册费。专业宠物清洁专家，为您打造清新无味的家居环境。
@@ -124,21 +129,21 @@ function PricingContent() {
                   <Star size={24} fill="currentColor" />
                 </div>
                 <div className="text-left">
-                  <h4 className="font-bold text-gray-900 text-lg">新客户优惠</h4>
+                  <h4 className="font-bold text-ink text-lg">新客户优惠</h4>
                   <p className="text-brand-green font-semibold">首单满 $50 立减 $10</p>
                 </div>
               </div>
 
               {/* Frequency Discounts */}
-              <div className="flex-1 flex items-center gap-4 p-6 bg-brand-blue/10 border-2 border-brand-blue/20 rounded-[30px]">
-                <div className="w-12 h-12 bg-brand-blue text-white rounded-2xl flex items-center justify-center flex-shrink-0">
+              <div className="flex-1 flex items-center gap-4 p-6 bg-coral-100/60 border-2 border-coral/20 rounded-[30px]">
+                <div className="w-12 h-12 bg-coral text-white rounded-2xl flex items-center justify-center flex-shrink-0 shadow-warm">
                   <Zap size={24} fill="currentColor" />
                 </div>
                 <div className="text-left">
-                  <h4 className="font-bold text-gray-900 text-lg">高频服务优惠</h4>
+                  <h4 className="font-bold text-ink text-lg">高频服务优惠</h4>
                   <div className="flex flex-col text-sm text-gray-700">
-                    <span>4-5 次/周: <span className="text-brand-blue font-bold">95折 (5% OFF)</span></span>
-                    <span>6-7 次/周: <span className="text-brand-blue font-bold">9折 (10% OFF)</span></span>
+                    <span>4-5 次/周: <span className="text-coral font-bold">95折 (5% OFF)</span></span>
+                    <span>6-7 次/周: <span className="text-coral font-bold">9折 (10% OFF)</span></span>
                   </div>
                 </div>
               </div>
@@ -147,7 +152,7 @@ function PricingContent() {
             <div className="flex flex-wrap justify-center gap-4 print:hidden">
               <button 
                 onClick={handlePrint}
-                className="flex items-center gap-2 px-6 py-3 bg-white border border-gray-200 rounded-2xl font-semibold text-gray-700 hover:bg-gray-50 transition-all shadow-sm active:scale-95"
+                className="flex items-center gap-2 px-6 py-3 bg-white border-2 border-coral rounded-full font-semibold text-coral hover:bg-coral hover:text-white transition-all shadow-soft active:scale-95"
               >
                 <Printer size={20} />
                 打印/保存报价单
@@ -164,32 +169,32 @@ function PricingContent() {
             {pricingData.map((plan, idx) => (
               <div 
                 key={idx}
-                className={`relative group flex flex-col p-8 md:p-10 rounded-[40px] border-2 transition-all duration-500 hover:shadow-2xl hover:shadow-brand-blue/10 ${
-                  plan.popular 
-                    ? 'border-brand-blue bg-white scale-105 z-20 shadow-xl' 
+                className={`relative group flex flex-col p-8 md:p-10 rounded-[40px] border-2 transition-all duration-500 hover:shadow-warm hover:-translate-y-1 ${
+                  plan.popular
+                    ? 'border-coral bg-white scale-105 z-20 shadow-soft'
                     : `${plan.borderColor} ${plan.color} scale-100`
                 }`}
               >
                 {plan.popular && (
-                  <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-brand-blue text-white px-6 py-1.5 rounded-full text-sm font-bold shadow-lg uppercase tracking-wider">
-                    最受欢迎
+                  <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-coral text-white px-6 py-1.5 rounded-full text-sm font-bold shadow-warm uppercase tracking-wider">
+                    🐾 最受欢迎
                   </div>
                 )}
 
                 <div className="mb-8">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
+                  <h3 className="text-2xl font-bold text-ink mb-2">{plan.name}</h3>
                   <p className="text-gray-500 text-sm">{plan.description}</p>
                 </div>
 
                 <div className="mb-8 flex items-baseline gap-1">
-                  <span className="text-5xl font-extrabold text-gray-900">{plan.price}</span>
+                  <span className="text-5xl font-extrabold text-ink">{plan.price}</span>
                   <span className="text-gray-500 font-medium">{plan.unit}</span>
                 </div>
 
                 <ul className="space-y-4 mb-10 flex-1">
                   {plan.features.map((feature, fIdx) => (
                     <li key={fIdx} className="flex items-start gap-3">
-                      <div className={`mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-white flex items-center justify-center border shadow-sm ${plan.iconColor}`}>
+                      <div className={`mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-white flex items-center justify-center border border-peach/40 shadow-soft ${plan.iconColor}`}>
                         <Check size={12} strokeWidth={3} />
                       </div>
                       <span className="text-gray-600 text-sm md:text-base">{feature}</span>
@@ -199,10 +204,10 @@ function PricingContent() {
 
                 <Link
                   href={`/book?lang=cn&plan=${plan.name}`}
-                  className={`w-full py-5 rounded-2xl font-bold text-lg text-center transition-all duration-300 active:scale-[0.98] ${
+                  className={`w-full py-5 rounded-full font-bold text-lg text-center transition-all duration-300 active:scale-[0.98] ${
                     plan.popular
-                      ? 'bg-brand-blue text-white hover:bg-cyan-600 shadow-lg shadow-brand-blue/20'
-                      : 'bg-white text-gray-900 border-2 border-gray-200 hover:border-gray-900'
+                      ? 'bg-coral text-white hover:bg-coral-600 shadow-warm hover:scale-105'
+                      : 'bg-white text-ink border-2 border-peach/60 hover:border-coral hover:text-coral'
                   }`}
                 >
                   {plan.cta}
@@ -214,16 +219,16 @@ function PricingContent() {
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-24 bg-gray-50">
+      <section className="py-24 bg-cream-dark">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">为什么选择 ScooPo?</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-ink mb-4">为什么选择 ScooPo? 🐾</h2>
             <p className="text-gray-500">最贴心的宠物管家服务</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-12 max-w-5xl mx-auto">
             <div className="text-center p-6">
-              <div className="w-16 h-16 bg-blue-100 text-brand-blue rounded-3xl flex items-center justify-center mx-auto mb-6">
+              <div className="w-16 h-16 bg-coral-100 text-coral rounded-3xl flex items-center justify-center mx-auto mb-6">
                 <ShieldCheck size={32} />
               </div>
               <h4 className="text-xl font-bold mb-3">安全放心</h4>
@@ -241,7 +246,7 @@ function PricingContent() {
               </p>
             </div>
             <div className="text-center p-6">
-              <div className="w-16 h-16 bg-brand-blue/10 text-brand-blue rounded-3xl flex items-center justify-center mx-auto mb-6">
+              <div className="w-16 h-16 bg-cyan-100 text-brand-blue rounded-3xl flex items-center justify-center mx-auto mb-6">
                 <Quote size={32} />
               </div>
               <h4 className="text-xl font-bold mb-3">异常告知</h4>
@@ -256,7 +261,7 @@ function PricingContent() {
       {/* Service Info & Contact */}
       <section className="py-20">
         <div className="container mx-auto px-6">
-          <div className="bg-brand-blue/90 rounded-[40px] p-10 md:p-16 text-white relative overflow-hidden">
+          <div className="bg-coral rounded-[40px] p-10 md:p-16 text-white relative overflow-hidden shadow-warm">
             <div className="absolute top-0 right-0 opacity-10 -translate-y-1/2 translate-x-1/2">
               <Smartphone size={400} />
             </div>
@@ -271,21 +276,21 @@ function PricingContent() {
                     </div>
                     <div>
                       <h5 className="font-bold mb-1">灵活定制</h5>
-                      <p className="text-blue-50 text-sm">有多只猫砂盆？或者需要更高频次的服务？联系我们，获取专属报价。</p>
+                      <p className="text-white/90 text-sm">有多只猫砂盆？或者需要更高频次的服务？联系我们，获取专属报价。</p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white rounded-3xl p-8 text-gray-900 shadow-2xl">
+              <div className="bg-white rounded-3xl p-8 text-ink shadow-warm border border-peach/40">
                 <h4 className="text-2xl font-bold mb-6 text-center">开始咨询</h4>
                 <div className="space-y-4">
                   <Link 
                     href="/#contact?lang=cn"
-                    className="flex items-center justify-between p-4 bg-gray-50 rounded-2xl hover:bg-gray-100 transition-colors"
+                    className="flex items-center justify-between p-4 bg-cream rounded-2xl hover:bg-cream-dark transition-colors"
                   >
                     <span className="font-medium">发送留言</span>
-                    <ArrowRight size={20} className="text-brand-blue" />
+                    <ArrowRight size={20} className="text-coral" />
                   </Link>
                   <p className="text-center text-xs text-gray-400 pt-4">© 2026 ScooPo - 专业宠物服务</p>
                 </div>
@@ -337,7 +342,7 @@ export default function PricingPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-brand-blue" />
+        <Loader2 className="w-8 h-8 animate-spin text-coral" />
       </div>
     }>
       <PricingContent />

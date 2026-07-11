@@ -3,9 +3,9 @@ export type PlanKey = 'essential' | 'care' | 'ultimate';
 export const PLAN_KEYS: PlanKey[] = ['essential', 'care', 'ultimate'];
 
 export const PLAN_BASE_PRICE: Record<PlanKey, number> = {
-  essential: 10,
-  care: 15,
-  ultimate: 20,
+  essential: 28,
+  care: 35,
+  ultimate: 42,
 };
 
 export function isPlanKey(value: unknown): value is PlanKey {
@@ -42,4 +42,15 @@ export function calculateWeeklyPrice(
 
 export function formatAmount(total: number): string {
   return total.toFixed(2).replace(/\.00$/, '').replace(/(\.\d)0$/, '$1');
+}
+
+// Dog waste removal: single-tier pilot service (Box Hill & Blackburn only, see DOG_SERVICE_SUBURBS).
+export const DOG_BASE_PRICE = 32; // per visit, 1 dog
+export const DOG_EXTRA_PET_FEE = 8; // per visit, per additional dog
+
+export function calculateDogWeeklyPrice(numDogs: number, frequency: number | 'custom'): number | null {
+  if (frequency === 'custom') return null;
+  const subtotalPerVisit = DOG_BASE_PRICE + (Math.max(1, numDogs) - 1) * DOG_EXTRA_PET_FEE;
+  const finalPricePerVisit = subtotalPerVisit * getDiscountRate(frequency);
+  return finalPricePerVisit * frequency;
 }

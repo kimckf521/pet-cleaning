@@ -83,6 +83,7 @@ const SUBURBS = [
     nameCn: 'Box Hill',
     blurbEn: 'Weekly cat litter cleaning and pet waste removal across Box Hill, Box Hill North & Box Hill South.',
     blurbCn: '为 Box Hill、Box Hill North 和 Box Hill South 提供每周猫砂清理和宠物粪便清理服务。',
+    offersDogService: true,
   },
   {
     slug: 'blackburn',
@@ -90,13 +91,14 @@ const SUBURBS = [
     nameCn: 'Blackburn',
     blurbEn: 'Reliable scoop, vacuum and sanitize visits for Blackburn cat owners. No contracts, no travel fees.',
     blurbCn: '为 Blackburn 养猫家庭提供可靠的清理、吸尘和消毒上门服务。无合约，无路费。',
+    offersDogService: true,
   },
   {
     slug: 'mont-albert',
     name: 'Mont Albert',
     nameCn: 'Mont Albert',
-    blurbEn: 'Leafy residential streets bordering Box Hill. Discreet drop-in cleaning, weekly from $10.',
-    blurbCn: '紧邻 Box Hill 的安静住宅区。低调上门清洁，每周 $10 起。',
+    blurbEn: 'Leafy residential streets bordering Box Hill. Discreet drop-in cleaning, weekly from $28.',
+    blurbCn: '紧邻 Box Hill 的安静住宅区。低调上门清洁，每周 $28 起。',
   },
   {
     slug: 'surrey-hills',
@@ -300,7 +302,7 @@ function HomeContent() {
   const faqs = lang === 'en' ? FAQS_EN : FAQS_CN;
 
   return (
-    <main className="min-h-screen bg-white text-gray-800 font-sans">
+    <main className="min-h-screen bg-cream text-gray-700">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
@@ -308,9 +310,14 @@ function HomeContent() {
       <Navbar lang={lang} setLang={setLang} t={t} />
 
       {/* Hero */}
-      <section className="pt-32 pb-20 px-4 bg-gradient-to-b from-blue-50 to-white text-center">
-        <div className="max-w-4xl mx-auto space-y-6">
-          <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 tracking-tight">
+      <section className="relative pt-32 pb-24 px-4 bg-gradient-to-b from-peach/40 via-coral-50 to-cream text-center overflow-hidden">
+        <span aria-hidden className="pointer-events-none select-none absolute top-28 left-[8%] text-5xl opacity-25 animate-float">🐾</span>
+        <span aria-hidden className="pointer-events-none select-none absolute bottom-16 right-[10%] text-6xl opacity-20 animate-float" style={{ animationDelay: '1.5s' }}>🐾</span>
+        <div className="relative max-w-4xl mx-auto space-y-6">
+          <span className="inline-flex items-center gap-2 bg-white/70 text-coral-700 font-semibold px-5 py-2 rounded-full shadow-soft">
+            🐾 {lang === 'en' ? 'Happy pets, spotless homes' : '快乐宠物，洁净家居'}
+          </span>
+          <h1 className="text-5xl md:text-7xl font-display font-bold text-ink tracking-tight">
             {t.hero.headline}
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
@@ -318,28 +325,34 @@ function HomeContent() {
           </p>
           <button
             onClick={() => document.getElementById('plans')?.scrollIntoView({ behavior: 'smooth' })}
-            className="mt-8 bg-brand-green text-white px-8 py-4 rounded-full text-lg font-bold shadow-lg hover:shadow-xl hover:bg-green-600 transition-all transform hover:-translate-y-1"
+            className="mt-8 bg-coral text-white px-10 py-4 rounded-full text-lg font-bold shadow-warm hover:bg-coral-600 transition-all transform hover:-translate-y-1 hover:scale-105"
           >
-            {t.hero.cta}
+            {t.hero.cta} 🐾
           </button>
         </div>
       </section>
 
       {/* Features */}
-      <section className="py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-3 gap-12 text-center">
-          <div className="p-6 rounded-2xl bg-gray-50 hover:bg-blue-50 transition-colors">
-            <Trash2 className="w-12 h-12 text-brand-blue mx-auto mb-4" />
+      <section className="py-20 bg-cream">
+        <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-3 gap-8 text-center">
+          <div className="p-8 rounded-3xl bg-white shadow-soft hover:shadow-warm hover:-translate-y-1 transition-all">
+            <div className="w-16 h-16 rounded-2xl bg-coral-100 flex items-center justify-center mx-auto mb-4">
+              <Trash2 className="w-8 h-8 text-coral" />
+            </div>
             <h3 className="text-xl font-bold mb-2">{t.features.trash.title}</h3>
             <p className="text-gray-600">{t.features.trash.desc}</p>
           </div>
-          <div className="p-6 rounded-2xl bg-gray-50 hover:bg-blue-50 transition-colors">
-            <Wind className="w-12 h-12 text-brand-blue mx-auto mb-4" />
+          <div className="p-8 rounded-3xl bg-white shadow-soft hover:shadow-warm hover:-translate-y-1 transition-all">
+            <div className="w-16 h-16 rounded-2xl bg-cyan-100 flex items-center justify-center mx-auto mb-4">
+              <Wind className="w-8 h-8 text-brand-blue" />
+            </div>
             <h3 className="text-xl font-bold mb-2">{t.features.vacuum.title}</h3>
             <p className="text-gray-600">{t.features.vacuum.desc}</p>
           </div>
-          <div className="p-6 rounded-2xl bg-gray-50 hover:bg-blue-50 transition-colors">
-            <ShieldCheck className="w-12 h-12 text-brand-green mx-auto mb-4" />
+          <div className="p-8 rounded-3xl bg-white shadow-soft hover:shadow-warm hover:-translate-y-1 transition-all">
+            <div className="w-16 h-16 rounded-2xl bg-green-100 flex items-center justify-center mx-auto mb-4">
+              <ShieldCheck className="w-8 h-8 text-brand-green" />
+            </div>
             <h3 className="text-xl font-bold mb-2">{t.features.shield.title}</h3>
             <p className="text-gray-600">{t.features.shield.desc}</p>
           </div>
@@ -347,9 +360,19 @@ function HomeContent() {
       </section>
 
       {/* Pricing */}
-      <section id="plans" className="py-20 bg-gray-50">
+      <section id="plans" className="py-20 bg-cream-dark paw-pattern">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-ink mb-4">
+              {lang === 'en' ? 'Simple, honest pricing 🐾' : '简单透明的收费方案 🐾'}
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              {lang === 'en'
+                ? 'No contracts, no surprises. Adjust litter boxes and visits to see your price instantly.'
+                : '无合约，无隐藏费用。调整猫砂盆数量和服务次数，即时查看价格。'}
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8 md:pt-4">
             <PricingCard
               planKey="essential"
               lang={lang}
@@ -386,10 +409,10 @@ function HomeContent() {
       </section>
 
       {/* Service Areas */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-cream">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-ink mb-4">
               {lang === 'en' ? 'Service Areas' : '服务区域'}
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -403,21 +426,26 @@ function HomeContent() {
               <Link
                 key={s.slug}
                 href={`/service-areas/${s.slug}?lang=${lang}`}
-                className="group p-8 rounded-3xl border border-gray-100 bg-gray-50 hover:bg-blue-50 hover:border-brand-blue/30 transition-all hover:-translate-y-1"
+                className="group p-8 rounded-3xl border border-peach/40 bg-white shadow-soft hover:shadow-warm hover:border-coral/40 transition-all hover:-translate-y-1"
               >
-                <div className="flex items-center gap-3 mb-3 text-brand-blue">
+                <div className="flex items-center gap-3 mb-3 text-coral">
                   <MapPin size={24} />
                   <span className="text-sm font-bold uppercase tracking-wider">
                     {lang === 'en' ? 'Service Area' : '服务区域'}
                   </span>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                <h3 className="text-2xl font-bold text-ink mb-2 flex items-center gap-2">
                   {lang === 'en' ? s.name : s.nameCn}
+                  {s.offersDogService && (
+                    <span className="text-[10px] font-bold uppercase tracking-wide bg-brand-green/10 text-brand-green px-2 py-0.5 rounded-full">
+                      🐕 {lang === 'en' ? 'Dog service' : '狗狗服务'}
+                    </span>
+                  )}
                 </h3>
                 <p className="text-gray-600 mb-4 text-sm leading-relaxed">
                   {lang === 'en' ? s.blurbEn : s.blurbCn}
                 </p>
-                <span className="inline-flex items-center gap-2 font-bold text-brand-blue group-hover:gap-3 transition-all">
+                <span className="inline-flex items-center gap-2 font-bold text-coral group-hover:gap-3 transition-all">
                   {lang === 'en' ? `View ${s.name} plans` : `查看 ${s.name} 方案`} <ArrowRight size={18} />
                 </span>
               </Link>
@@ -427,10 +455,10 @@ function HomeContent() {
       </section>
 
       {/* FAQ */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-cream-dark">
         <div className="max-w-3xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-ink mb-4">
               {lang === 'en' ? 'Frequently Asked Questions' : '常见问题'}
             </h2>
             <p className="text-lg text-gray-600">
@@ -443,13 +471,13 @@ function HomeContent() {
             {faqs.map((faq, i) => (
               <details
                 key={i}
-                className="group bg-white rounded-2xl border border-gray-100 p-6 open:shadow-md transition-shadow"
+                className="group bg-white rounded-3xl border border-peach/40 p-6 open:shadow-warm transition-shadow"
               >
-                <summary className="cursor-pointer list-none flex items-center justify-between gap-4 font-bold text-gray-900 text-lg">
+                <summary className="cursor-pointer list-none flex items-center justify-between gap-4 font-bold text-ink text-lg">
                   <span>{faq.q}</span>
                   <Plus
                     size={20}
-                    className="text-brand-blue flex-shrink-0 group-open:rotate-45 transition-transform"
+                    className="text-coral flex-shrink-0 group-open:rotate-45 transition-transform"
                   />
                 </summary>
                 <p className="mt-4 text-gray-600 leading-relaxed">{faq.a}</p>
@@ -460,13 +488,13 @@ function HomeContent() {
       </section>
 
       {/* Enquiry Form */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-cream">
         <div className="max-w-4xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">{t.contact_form.title}</h2>
+            <h2 className="text-3xl font-bold text-ink mb-4">{t.contact_form.title}</h2>
             <p className="text-xl text-gray-600">{t.contact_form.subhead}</p>
           </div>
-          <form onSubmit={handleEnquirySubmit} className="bg-gray-50 p-8 rounded-2xl shadow-sm border border-gray-100">
+          <form onSubmit={handleEnquirySubmit} className="bg-white p-8 rounded-3xl shadow-soft border border-peach/40">
             {/* Honeypot field: hidden from real users, but a plausible target for bot autofill */}
             <input
               type="text"
@@ -498,7 +526,7 @@ function HomeContent() {
                   }}
                   placeholder="John Doe"
                   className={`w-full border py-3 px-4 rounded-xl leading-tight focus:outline-none transition-colors ${
-                    enquiryErrors.name ? 'border-red-300 bg-red-50' : 'bg-white border-gray-200 focus:border-brand-blue'
+                    enquiryErrors.name ? 'border-red-300 bg-red-50' : 'bg-white border-gray-200 focus:border-coral'
                   }`}
                 />
               </div>
@@ -521,7 +549,7 @@ function HomeContent() {
                   }}
                   placeholder="you@example.com"
                   className={`w-full border py-3 px-4 rounded-xl leading-tight focus:outline-none transition-colors ${
-                    enquiryErrors.email ? 'border-red-300 bg-red-50' : 'bg-white border-gray-200 focus:border-brand-blue'
+                    enquiryErrors.email ? 'border-red-300 bg-red-50' : 'bg-white border-gray-200 focus:border-coral'
                   }`}
                 />
               </div>
@@ -536,7 +564,7 @@ function HomeContent() {
                 value={enquiryData.phone}
                 onChange={(e) => setEnquiryData({ ...enquiryData, phone: e.target.value })}
                 placeholder="0400 000 000"
-                className="w-full bg-white border border-gray-200 text-gray-700 py-3 px-4 rounded-xl leading-tight focus:outline-none focus:border-brand-blue transition-colors"
+                className="w-full bg-white border border-gray-200 text-gray-700 py-3 px-4 rounded-xl leading-tight focus:outline-none focus:border-coral transition-colors"
               />
             </div>
             <div className="mb-6">
@@ -558,7 +586,7 @@ function HomeContent() {
                 maxLength={MAX_ENQUIRY_MESSAGE_LENGTH}
                 placeholder={t.contact_form.messagePlaceholder}
                 className={`w-full border py-3 px-4 rounded-xl leading-tight focus:outline-none transition-colors h-32 resize-none ${
-                  enquiryErrors.message ? 'border-red-300 bg-red-50' : 'bg-white border-gray-200 focus:border-brand-blue'
+                  enquiryErrors.message ? 'border-red-300 bg-red-50' : 'bg-white border-gray-200 focus:border-coral'
                 }`}
               />
               <div className="text-right text-xs text-gray-400 mt-1">
@@ -576,7 +604,7 @@ function HomeContent() {
                 type="submit"
                 disabled={enquiryStatus === 'loading' || enquiryStatus === 'success'}
                 className={`w-full md:w-auto px-8 py-3 rounded-xl font-bold text-white transition-all transform hover:-translate-y-1 inline-flex items-center justify-center gap-2 disabled:hover:translate-y-0 ${
-                  enquiryStatus === 'success' ? 'bg-green-500 hover:bg-green-600' : 'bg-brand-blue hover:bg-cyan-600 shadow-lg hover:shadow-xl'
+                  enquiryStatus === 'success' ? 'bg-green-500 hover:bg-green-600' : 'bg-coral hover:bg-coral-600 shadow-warm hover:shadow-xl'
                 }`}
               >
                 {enquiryStatus === 'loading' ? (
@@ -595,7 +623,7 @@ function HomeContent() {
               </button>
               <p className="text-xs text-gray-400 mt-4">
                 {t.contact_form.privacyPrefix}
-                <Link href={`/privacy?lang=${lang}`} className="underline hover:text-brand-blue">
+                <Link href={`/privacy?lang=${lang}`} className="underline hover:text-coral">
                   {t.contact_form.privacyLink}
                 </Link>
                 {t.contact_form.privacySuffix}
@@ -625,7 +653,7 @@ function HomeContent() {
               <X className="w-6 h-6" />
             </button>
 
-            <h2 id="booking-modal-title" className="text-2xl font-bold mb-6 text-gray-900">{t.modal.title}</h2>
+            <h2 id="booking-modal-title" className="text-2xl font-bold mb-6 text-ink">{t.modal.title}</h2>
 
             {status === 'success' ? (
               <div className="text-center py-8">
@@ -697,7 +725,7 @@ function HomeContent() {
                 <button
                     disabled={status === 'loading'}
                     type="submit"
-                    className="w-full bg-brand-blue text-white py-3 rounded-xl font-bold hover:bg-cyan-600 transition-colors disabled:opacity-50"
+                    className="w-full bg-coral text-white py-3 rounded-full font-bold hover:bg-coral-600 transition-colors disabled:opacity-50"
                 >
                     {status === 'loading' ? t.modal.loading : t.modal.submit}
                 </button>

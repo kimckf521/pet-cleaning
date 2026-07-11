@@ -21,3 +21,6 @@ export const SERVICE_AREA_FULL_CN = SERVICE_AREAS.map((s) => s.name).join('、')
 // Short form, for space-constrained spots: footer tagline, OG image, email sign-off.
 export const SERVICE_AREA_SHORT_EN = "Melbourne's Eastern Suburbs";
 export const SERVICE_AREA_SHORT_CN = '墨尔本东区';
+
+// Pilot: dog waste removal is only bookable in these suburbs (slugs from SERVICE_AREAS above).
+export const DOG_SERVICE_SUBURBS = ['box-hill', 'blackburn'];

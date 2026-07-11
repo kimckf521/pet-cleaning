@@ -33,8 +33,8 @@ const serviceJsonLd = {
   url: `${SITE_URL}/services`,
   offers: {
     '@type': 'AggregateOffer',
-    lowPrice: '10',
-    highPrice: '20',
+    lowPrice: '28',
+    highPrice: '42',
     priceCurrency: 'AUD',
     offerCount: 3,
   },
@@ -48,7 +48,7 @@ const serviceJsonLd = {
           '@type': 'Service',
           name: 'Essential – Cat Litter Removal & Vacuum',
         },
-        price: '10.00',
+        price: '28.00',
         priceCurrency: 'AUD',
       },
       {
@@ -57,7 +57,7 @@ const serviceJsonLd = {
           '@type': 'Service',
           name: 'Premium – Full Care with Food & Water Refill',
         },
-        price: '15.00',
+        price: '35.00',
         priceCurrency: 'AUD',
       },
       {
@@ -66,7 +66,7 @@ const serviceJsonLd = {
           '@type': 'Service',
           name: 'Ultimate – Complete Hygiene Management',
         },
-        price: '20.00',
+        price: '42.00',
         priceCurrency: 'AUD',
       },
     ],
@@ -116,28 +116,28 @@ function ServicesContent() {
   const serviceOffers = [
     {
       title: lang === 'en' ? "Waste Removal" : "粪便清理",
-      icon: <Layers className="text-brand-blue" />,
+      icon: <Layers className="text-coral" />,
       details: lang === 'en' 
         ? ["Complete area scan", "Waste bagged and hauled away", "Secure entry check", "Photo confirmation"]
         : ["宠物厕所全面扫描", "粪便装袋并带离", "入户安全检查", "照片确认"]
     },
     {
       title: lang === 'en' ? "Sanitization & Deodorizing" : "消毒与除臭",
-      icon: <Sparkles className="text-brand-green" />,
+      icon: <Sparkles className="text-brand-blue" />,
       details: lang === 'en'
         ? ["Pet-safe enzyme treatment", "Eliminates urine & waste odors", "Kills bacteria & parasites", "Fresh scent finish"]
         : ["宠物安全酶处理", "消除尿液和粪便异味", "杀灭细菌和寄生虫", "持久留香"]
     },
     {
       title: lang === 'en' ? "Pet Health & Hygiene" : "宠物健康与卫生",
-      icon: <Sprout className="text-brand-blue" />,
+      icon: <Sprout className="text-brand-green" />,
       details: lang === 'en'
         ? ["Litter area sanitization", "Odor neutralizer application", "Water & food bowl refresh", "Stool anomaly monitoring"]
         : ["宠物厕所区域消毒", "气味中和处理", "饮水及喂食具清洁", "排泄物异常监测"]
     },
     {
       title: lang === 'en' ? "Indoor/Outdoor Litter" : "室内/室外猫砂服务",
-      icon: <Wind className="text-brand-green" />,
+      icon: <Wind className="text-coral" />,
       details: lang === 'en'
         ? ["Full litter box dump & scrub", "Sanitary refill (Using your litter)", "Deep odor control", "Weekly maintenance"]
         : ["猫砂盆彻底清空与刷洗", "卫生猫砂填充 (使用自备猫砂)", "深度异味控制", "每周专业维护"]
@@ -145,7 +145,7 @@ function ServicesContent() {
   ];
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-cream text-gray-700">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
@@ -157,9 +157,14 @@ function ServicesContent() {
       <Navbar lang={lang} setLang={setLang} t={t} />
 
       {/* Header */}
-      <section className="pt-40 pb-16 bg-gradient-to-b from-blue-50/50 to-white">
-        <div className="container mx-auto px-6 text-center">
-          <h1 className="text-5xl font-bold text-gray-900 mb-6">{lang === 'en' ? 'Our Deep Cleaning Services' : '我们的深度清洁服务'}</h1>
+      <section className="relative overflow-hidden pt-40 pb-16 bg-gradient-to-b from-peach/40 via-coral-50 to-cream">
+        <span aria-hidden className="pointer-events-none select-none absolute top-32 left-[8%] text-5xl opacity-20 animate-float">🐾</span>
+        <span aria-hidden className="pointer-events-none select-none absolute bottom-10 right-[10%] text-6xl opacity-20 animate-float" style={{ animationDelay: '1.5s' }}>🐾</span>
+        <div className="relative container mx-auto px-6 text-center">
+          <span className="inline-flex items-center gap-2 bg-white/70 text-coral-700 font-semibold px-5 py-2 rounded-full shadow-soft mb-6">
+            🐾 {lang === 'en' ? 'Pet-safe deep cleaning' : '宠物安全深度清洁'}
+          </span>
+          <h1 className="text-5xl font-display font-bold text-ink mb-6">{lang === 'en' ? 'Our Deep Cleaning Services' : '我们的深度清洁服务'}</h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             {lang === 'en' 
               ? "Professional pet waste management tailored to your home and lifestyle."
@@ -173,18 +178,18 @@ function ServicesContent() {
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold mb-4">{lang === 'en' ? 'How It Works' : '服务流程'}</h2>
-            <div className="w-20 h-1.5 bg-brand-blue mx-auto rounded-full"></div>
+            <div className="w-20 h-1.5 bg-coral mx-auto rounded-full"></div>
           </div>
           
           <div className="grid md:grid-cols-4 gap-8">
             {processSteps.map((step, idx) => (
               <div key={idx} className="relative group">
-                <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl transition-all h-full text-center hover:-translate-y-2">
-                  <div className="w-16 h-16 bg-blue-50 text-brand-blue rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-brand-blue group-hover:text-white transition-colors">
+                <div className="bg-white p-8 rounded-3xl border border-peach/40 shadow-soft hover:shadow-warm transition-all h-full text-center hover:-translate-y-2">
+                  <div className="w-16 h-16 bg-coral-100 text-coral rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-coral group-hover:text-white transition-colors">
                     {step.icon}
                   </div>
                   <h3 className="text-xl font-bold mb-3">{step.title}</h3>
-                  <p className="text-gray-500 text-sm leading-relaxed">{step.desc}</p>
+                  <p className="text-gray-600 text-sm leading-relaxed">{step.desc}</p>
                 </div>
               </div>
             ))}
@@ -193,16 +198,16 @@ function ServicesContent() {
       </section>
 
       {/* Services Grid */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-cream-dark">
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-8">
             {serviceOffers.map((service, idx) => (
-              <div key={idx} className="bg-white p-10 rounded-[40px] shadow-sm flex flex-col md:flex-row gap-8 items-start hover:shadow-md transition-shadow">
-                <div className="w-16 h-16 rounded-2xl bg-gray-50 flex items-center justify-center flex-shrink-0">
+              <div key={idx} className="bg-white p-10 rounded-[40px] border border-peach/40 shadow-soft flex flex-col md:flex-row gap-8 items-start hover:shadow-warm hover:-translate-y-1 transition-all">
+                <div className="w-16 h-16 rounded-2xl bg-peach/40 flex items-center justify-center flex-shrink-0">
                   {React.cloneElement(service.icon as React.ReactElement, { size: 32 })}
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-2xl font-bold mb-6 text-gray-900">{service.title}</h3>
+                  <h3 className="text-2xl font-bold mb-6 text-ink">{service.title}</h3>
                   <ul className="space-y-4">
                     {service.details.map((detail, dIdx) => (
                       <li key={dIdx} className="flex items-center gap-3 text-gray-600">
@@ -222,7 +227,7 @@ function ServicesContent() {
       <section className="py-20">
         <div className="container mx-auto px-6 max-w-5xl">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl font-bold text-ink mb-4">
               {lang === 'en' ? 'Where We Service' : '服务区域'}
             </h2>
             <p className="text-gray-600">
@@ -242,13 +247,13 @@ function ServicesContent() {
               <Link
                 key={s.slug}
                 href={`/service-areas/${s.slug}?lang=${lang}`}
-                className="group p-6 rounded-3xl border border-gray-100 bg-gray-50 hover:bg-blue-50 hover:border-brand-blue/30 transition-all"
+                className="group p-6 rounded-3xl border border-peach/40 bg-white shadow-soft hover:shadow-warm hover:border-coral/40 transition-all hover:-translate-y-1"
               >
-                <div className="text-brand-blue text-sm font-bold uppercase tracking-wider mb-2">
+                <div className="text-coral text-sm font-bold uppercase tracking-wider mb-2">
                   {lang === 'en' ? 'Service Area' : '服务区域'}
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{s.name}</h3>
-                <span className="inline-flex items-center gap-2 text-brand-blue font-bold group-hover:gap-3 transition-all">
+                <h3 className="text-xl font-bold text-ink mb-2">{s.name}</h3>
+                <span className="inline-flex items-center gap-2 text-coral font-bold group-hover:gap-3 transition-all">
                   {lang === 'en' ? `View ${s.name} plans` : `查看 ${s.name} 方案`} <ArrowRight size={16} />
                 </span>
               </Link>
@@ -258,19 +263,19 @@ function ServicesContent() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24">
+      <section className="py-24 bg-cream-dark paw-pattern">
         <div className="container mx-auto px-6 text-center max-w-4xl">
-          <h2 className="text-4xl font-bold mb-10 text-gray-900">{lang === 'en' ? 'Simple, Transparent Pricing' : '简单、透明的定价'}</h2>
+          <h2 className="text-4xl font-bold mb-10 text-ink">{lang === 'en' ? 'Simple, Transparent Pricing' : '简单、透明的定价'}</h2>
           <p className="text-gray-600 mb-12">
             {lang === 'en'
               ? "No registration fees. No hidden costs. Just professional service and a fresh home. All our plans include thorough scoping, waste disposal, and pet-safe sanitizing sprays."
               : "无注册费。无隐藏费用。只有专业的服务和清新的家居环境。我们所有的方案都包括彻底的清理、垃圾处理和对宠物安全的消毒喷雾。"}
           </p>
-          <Link 
+          <Link
               href={getLink('/#plans')}
-              className="inline-flex items-center gap-3 bg-brand-blue text-white px-12 py-5 rounded-2xl font-bold text-lg hover:bg-cyan-600 transition-all shadow-xl hover:-translate-y-1"
+              className="inline-flex items-center gap-3 bg-coral text-white px-12 py-5 rounded-full font-bold text-lg shadow-warm hover:bg-coral-600 hover:scale-105 hover:-translate-y-1 transition-all"
             >
-              {lang === 'en' ? 'Check Pricing Plans' : '查看定价方案'}
+              {lang === 'en' ? 'Check Pricing Plans' : '查看定价方案'} 🐾
             </Link>
         </div>
       </section>
